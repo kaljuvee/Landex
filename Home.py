@@ -93,8 +93,13 @@ def get_model(model_name,dataset_name,land_type):
 
 
     elif model_name=='Prophet' and dataset_name=='France' and land_type=='Forest land':
-        df_fra_forest = pd.read_csv('forest_land_france.csv')
-        df_fra_forest[['ds', 'y']] = df_fra_forest[['date', 'price']]
+        df_fra_forest = pd.read_csv('forest_land_france.csv',sep=';')
+        df_fra_forest=df_fra_forest[df_fra_forest['country']=='FRA']
+        df_fra_forest = df_fra_forest.drop(['indicator', 'Country name', 'country'], axis=1)
+        df_fra_forest = df_fra_forest.rename(columns={'Indicator name': 'land_type', 'time': 'year', 'value': 'price'})
+        df_fra_forest['land_type']='Forest land'
+        df_fra_forest = df_fra_forest.reset_index(drop=True)
+        df_fra_forest[['ds', 'y']] = df_fra_forest[['year', 'price']]
         df_fra_forest = df_fra_forest[['ds', 'y']]
         m = Prophet()
         m.fit(df_fra_forest)
@@ -110,8 +115,12 @@ def get_model(model_name,dataset_name,land_type):
     
     
     elif model_name=='Prophet' and dataset_name=='France' and land_type=='Farmland':
-        df_fra_farm = pd.read_csv('farmland_france.csv')
-        df_fra_farm[['ds', 'y']] = df_fra_farm[['date', 'price']]
+        df_fra_farm = pd.read_csv('farmland_france.csv',sep=';')
+        df_fra_farm=df_fra_farm[df_fra_farm['country']=='FRA']
+        df_fra_farm = df_fra_farm.drop(['indicator', 'Country name', 'country'], axis=1)
+        df_fra_farm = df_fra_farm.rename(columns={'Indicator name': 'land_type', 'time': 'year', 'value': 'price'})
+        df_fra_farm = df_fra_farm.reset_index(drop=True)
+        df_fra_farm[['ds', 'y']] = df_fra_farm[['year', 'price']]
         df_fra_farm = df_fra_farm[['ds', 'y']]
         m = Prophet()
         m.fit(df_fra_farm)
