@@ -11,6 +11,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn import metrics
 from prophet import Prophet
+from prophet.plot import plot_plotly, plot_components_plotly
+
 
 st.title('Landex ai Project')
 
@@ -31,11 +33,10 @@ def get_model(model_name,dataset_name,land_type):
         df_est_forest = pd.read_csv('forest_land_estonia.csv')
         df_est_forest[['ds', 'y']] = df_est_forest[['year', 'avg_price_eur']]
         df_est_forest = df_est_forest[['ds', 'y']]
-        df_train = df_est_forest[df_est_forest['ds'] <= 2014]
-        df_test= df_est_forest[df_est_forest['ds'] > 2014]
         m = Prophet()
-        m.fit(df_train)
-        forecast = m.predict(df_test)
+        m.fit(df_est_forest)
+        future = m.make_future_dataframe(periods = 20818)     
+        forecast = m.predict(future.tail(1461))
         m.plot(forecast)
         fig1 = plot_plotly(m, forecast) 
         st.plotly_chart(fig1) 
@@ -47,11 +48,11 @@ def get_model(model_name,dataset_name,land_type):
         df_est_farm = pd.read_csv('farmland_estonia.csv')
         df_est_farm[['ds', 'y']] = df_est_farm[['year', 'avg_price_eur']]
         df_est_farm = df_est_farm[['ds', 'y']]
-        df_train = df_est_farm[df_est_farm['ds'] <= 2015]
-        df_test= df_est_farm[df_est_farm['ds'] > 2015]
+        
         m = Prophet()
-        m.fit(df_train)
-        forecast = m.predict(df_test)
+        m.fit(df_est_farm)
+        future = m.make_future_dataframe(periods = 20818)
+        forecast = m.predict(future.tail(1461))
         m.plot(forecast)
         fig1 = plot_plotly(m, forecast) 
         st.plotly_chart(fig1) 
@@ -61,7 +62,7 @@ def get_model(model_name,dataset_name,land_type):
 
 
     elif model_name=='Linear Regression' and dataset_name=='Estonia' and land_type=='Forest land and Farmland':
-        df = pd.read_csv('farm_forest_estonia.csv')
+        df = pd.read_csv('maaamet_farm_forest_2022.csv')
         X = df[['year',  'number', 'average_area',
        'total_volume_eur', 'price_min', 'price_max', 'price_per_unit_min',
        'price_per_unit_max', 'price_per_unit_median',
@@ -95,25 +96,33 @@ def get_model(model_name,dataset_name,land_type):
         df_fra_forest = pd.read_csv('forest_land_france.csv')
         df_fra_forest[['ds', 'y']] = df_fra_forest[['date', 'price']]
         df_fra_forest = df_fra_forest[['ds', 'y']]
-        df_train = df_fra_forest[df_fra_forest['ds'] <= 2007]
-        df_test= df_fra_forest[df_fra_forest['ds'] > 2007]
-        model = Prophet()
-        model.fit(df_train)
-        forecast = model.predict(df_test)
-        fig=model.plot(forecast)
-        return(st.pyplot(fig))
+        m = Prophet()
+        m.fit(df_fra_forest)
+        future = m.make_future_dataframe(periods=18992)
+        forecast = m.predict(future.tail(1461))
+
+        m.plot(forecast)
+        fig1 = plot_plotly(m, forecast) 
+        st.plotly_chart(fig1) 
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
+        return(st.plotly_chart(fig, use_container_width=True))
+    
     
     elif model_name=='Prophet' and dataset_name=='France' and land_type=='Farmland':
         df_fra_farm = pd.read_csv('farmland_france.csv')
         df_fra_farm[['ds', 'y']] = df_fra_farm[['date', 'price']]
         df_fra_farm = df_fra_farm[['ds', 'y']]
-        df_train = df_fra_farm[df_fra_farm['ds'] <= 1998]
-        df_test= df_fra_farm[df_fra_farm['ds'] > 1998]
-        model = Prophet()
-        model.fit(df_train)
-        forecast = model.predict(df_test)
-        fig=model.plot(forecast)
-        return(st.pyplot(fig))
+        m = Prophet()
+        m.fit(df_fra_farm)
+        future = m.make_future_dataframe(periods=16070)
+        forecast = m.predict(future.tail(1461))
+        m.plot(forecast)
+        fig1 = plot_plotly(m, forecast) 
+        st.plotly_chart(fig1) 
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
+        return(st.plotly_chart(fig, use_container_width=True))
 
 
 st.subheader(dataset_name+' '+land_type+' '+model_name+' Model')
