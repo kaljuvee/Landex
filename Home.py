@@ -14,7 +14,7 @@ from prophet import Prophet
 from prophet.plot import plot_plotly, plot_components_plotly
 
 
-#st.title('Landex ai Project')
+st.title('Landex ai Project')
 
 st.write("""
 # Explore Different Results
