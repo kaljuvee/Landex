@@ -1,15 +1,4 @@
 # Land Index
-## Install Streamlit
-Create a virtual environment 
-```bash
-python -m venv venv
-source venv/bin/activate
-```
-Install streamlit
-```bash
-pip install streamlit
-```
-
 ## Install Requirements
 launch a browser on localhost:8501
 ```bash
