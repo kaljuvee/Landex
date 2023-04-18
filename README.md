@@ -12,7 +12,7 @@ open port 80 and port 443 on your system's firewall for HTTP and HTTPS traffic
 sudo iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 sudo iptables -I INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 ```
-Create the SSL Certificate 
+## Create the SSL Certificate 
 
 ```bash
 sudo mkdir /etc/ssl/private
@@ -67,5 +67,15 @@ server {
 	location = /50x.html {
 	}
 }
+```
+## Configure Nginx to redirect all HTTP to HTTPS
+
+(Create defaut.d if the file doesn’t exist)
+```bash
+sudo nano /etc/nginx/default.d/ssl-redirect.conf 
+```
+Add the following configuration 
+```bash
+return 301 https://$host$request_uri/;
 ```
   
