@@ -24,6 +24,12 @@ sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install nginx
 ```
+### Set up your Streamlit app
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
 ### Install Nginx and Basic Configuration
 
