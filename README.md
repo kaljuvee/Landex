@@ -1,12 +1,12 @@
 # Land Index
 ## Install Streamlit
-Create a virtual enviroment 
+Create a virtual environment 
 ```bash
 python -m venv venv
 source venv/bin/activate
 ```
-```bash
 Install streamlit
+```bash
 pip install streamlit
 ```
 
