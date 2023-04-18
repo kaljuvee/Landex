@@ -1,9 +1,9 @@
 # Landex
 ## Install Requirements
 launch a browser on localhost:8501
-```bash
-git pull [https://github.com/manelreghima/Landex.git](https://github.com/manelreghima/Landex.git)
 
+git pull [https://github.com/manelreghima/Landex.git](https://github.com/manelreghima/Landex.git)
+```bash
 pip install -r requiments.txt
 
 streamlit run Home.py
