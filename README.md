@@ -1,4 +1,15 @@
-# Landex
+# Land Index
+## Install Streamlit
+Create a virtual enviroment 
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+```bash
+Install streamlit
+pip install streamlit
+```
+
 ## Install Requirements
 launch a browser on localhost:8501
 ```bash
