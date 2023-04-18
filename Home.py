@@ -20,7 +20,7 @@ st.write("""
 # Explore Different Results
 """)
 
-st.sidebar.image("data/landex.png", use_column_width=True)
+#st.sidebar.image("data/landex.png", use_column_width=True)
 
 dataset_name=st.sidebar.selectbox("Select Dataset",("Estonia","France"))
 land_type=st.sidebar.selectbox("Select type of land",("Forest land","Farmland",'Forest land and Farmland'))
