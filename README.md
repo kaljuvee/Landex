@@ -25,7 +25,7 @@ sudo service nginx start
 sudo service nginx status
 sudo systemctl enable nginx
 ```
-open port 80 and port 443 on your system's firewall for HTTP and HTTPS traffic
+Open port 80 and port 443 on your system's firewall for HTTP and HTTPS traffic
 ```bash
 sudo iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 sudo iptables -I INPUT -p tcp -m tcp --dport 443 -j ACCEPT
@@ -40,7 +40,7 @@ sudo chmod 700 /etc/ssl/private
  ```bash
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
   ```
- ensure that the SSL/TLS connection is secure and provides forward secrecy
+ Ensure that the SSL/TLS connection is secure and provides forward secrecy
   ```bash
 sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
    ```
