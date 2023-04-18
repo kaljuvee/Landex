@@ -1,4 +1,13 @@
 # Landex
+## Install Requirements
+launch a browser on localhost:8501
+```bash
+git pull https://github.com/kanvas-ai/artindex.git
+
+pip install -r requiments.txt
+
+streamlit run Home.py
+
 ## Install Nginx and Basic Configuration
 
 ```bash
