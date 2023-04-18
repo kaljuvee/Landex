@@ -30,7 +30,8 @@ Open ssl.conf file
   ```bash
 sudo nano /etc/nginx/conf.d/ssl.conf
    ```
-Add the following configuration   
+Add the following configuration 
+  ```bash
 server {
 	listen 443 http2 ssl;
 	listen [::]:443 http2 ssl;
@@ -66,5 +67,5 @@ server {
 	location = /50x.html {
 	}
 }
-
-   
+```
+  
