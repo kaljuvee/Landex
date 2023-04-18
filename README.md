@@ -78,4 +78,14 @@ Add the following configuration
 ```bash
 return 301 https://$host$request_uri/;
 ```
+## Create Trusted Certificates
+```bash
+sudo certbot certonly --webroot --webroot-path=/var/www/html --email manelreghima01@gmail.com --agree-tos --no-eff-email --staging -d landex.com -d www.landex.com
+```
+Test the Nginx configuration and restart the Nginx service
+```bash
+sudo nginx –t
+sudo service nginx restart
+```
+
   
