@@ -1,2 +1,3 @@
 # Landex
-## Install Streamlit
+## Install Nginx and Basic Configuration
+
