@@ -2,7 +2,7 @@
 ## Install Requirements
 launch a browser on localhost:8501
 ```bash
-git pull https://github.com/manelreghima/Landex.git
+git pull [https://github.com/manelreghima/Landex.git](https://github.com/manelreghima/Landex.git)
 
 pip install -r requiments.txt
 
