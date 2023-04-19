@@ -81,7 +81,6 @@ fig = px.bar(df, x='year', y='total_volume_eur',
              labels={'avg_price_eur':'Average price (EUR per hectar)'}, height=400)
 fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
 st.plotly_chart(fig, use_container_width=True)
-create_paragraph('''The Art Index gives an overview of the rise and fall in the price of art. The price of art has made a noticeable jump in recent years. Interest in investing in art on the art auction market has skyrocketed since the pandemic.''')
 
 # FIGURE - Relative price of land by region - point of time data (2020)
 st.sidebar.markdown("""
