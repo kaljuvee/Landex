@@ -1,14 +1,26 @@
-# Landex
+# Land Index
 ## Install Requirements
-launch a browser on localhost:8501
+Launch a browser on localhost:8501
 ```bash
-git pull https://github.com/kanvas-ai/artindex.git
-
+git pull https://github.com/manelreghima/Landex.git
 pip install -r requiments.txt
-
 streamlit run Home.py
+```
+## AWS Deployment Instructions
+### Install required packages on AWS Ubuntu
+```bash
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install nginx
+```
+### Set up your Streamlit app
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
-## Install Nginx and Basic Configuration
+### Install Nginx and Basic Configuration
 
 ```bash
 sudo apt-get install nginx
@@ -16,12 +28,12 @@ sudo service nginx start
 sudo service nginx status
 sudo systemctl enable nginx
 ```
-open port 80 and port 443 on your system's firewall for HTTP and HTTPS traffic
+Open port 80 and port 443 on your system's firewall for HTTP and HTTPS traffic
 ```bash
 sudo iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 sudo iptables -I INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 ```
-## Create the SSL Certificate 
+### Create the SSL Certificate 
 
 ```bash
 sudo mkdir /etc/ssl/private
@@ -31,7 +43,7 @@ sudo chmod 700 /etc/ssl/private
  ```bash
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
   ```
- ensure that the SSL/TLS connection is secure and provides forward secrecy
+ Ensure that the SSL/TLS connection is secure and provides forward secrecy
   ```bash
 sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
    ```
@@ -77,7 +89,7 @@ server {
 	}
 }
 ```
-## Configure Nginx to redirect all HTTP to HTTPS
+### Configure Nginx to redirect all HTTP to HTTPS
 
 (Create defaut.d if the file doesn’t exist)
 ```bash
@@ -87,7 +99,7 @@ Add the following configuration
 ```bash
 return 301 https://$host$request_uri/;
 ```
-## Create Trusted Certificates
+### Create Trusted Certificates
 ```bash
 sudo certbot certonly --webroot --webroot-path=/var/www/html --email manelreghima01@gmail.com --agree-tos --no-eff-email --staging -d landex.com -d www.landex.com
 ```
