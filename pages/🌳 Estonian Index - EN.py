@@ -1,5 +1,4 @@
 import streamlit as st
-from prophet.plot import plot_plotly
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -81,6 +80,8 @@ fig = px.bar(df, x='year', y='total_volume_eur',
              labels={'avg_price_eur':'Average price (EUR per hectar)'}, height=400)
 fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
 st.plotly_chart(fig, use_container_width=True)
+create_paragraph('''The Land Index provides an overview of the fluctuations in the prices of farmland and forest land.
+It's noteworthy that these prices have experienced a noticeable increase in recent years''')
 
 # FIGURE - Relative price of land by region - point of time data (2020)
 st.sidebar.markdown("""
@@ -111,6 +112,7 @@ fig = px.scatter(df, x="average_area", y="avg_price_eur", color="county",
                  size='total_volume_eur', hover_data=['region'])
 fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
 st.plotly_chart(fig, use_container_width=True)
+create_paragraph('''The provided graph visualizes the relationship between two variables, average_area and avg_price_eur, for various counties within a given region. Each point on the graph represents a county, with the color of the point indicating the specific county and the size of the point representing the total sales volume in euros.''')
 
 #FIGURE - Relationship between Land Area and Transaction Volume
 st.sidebar.markdown("""
