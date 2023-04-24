@@ -47,78 +47,80 @@ toc = Toc()
 
 # TITLE
 st.image("data/landex.png",width=200)
-st.title('Estonian Land Index')
+st.title('Eesti maaindeks')
 
 # Overview
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#overview' target='_self'>Overview</a>
+     <a href='./Estonian_Index_-_EE#levaade' target='_self'>Ülevaade</a>
 """, unsafe_allow_html=True)
-toc.header('Overview')
-create_paragraph('''LandEx is a startup company based in Tallinn, Estonia, with a mission to democratize land investment.
+toc.header('Ülevaade')
+create_paragraph('''LandEx on Tallinnas asuv idufirma, mille eesmärk on demokratiseerida maainvesteeringuid.
 
-They believe that land is a great asset class that provides high-yield and low-risk returns due to its economic fundamentals, and therefore it should be accessible to anyone.
+Nad usuvad, et maa on suurepärane varaklass, mis pakub oma majanduslike põhialuste tõttu kõrget tootlust ja madalat riski ning seetõttu peaks see olema kõigile kättesaadav.
 
-The company aims to become the largest land investment platform in Europe, providing a solution that was not previously available in the market.
-The founders of LandEx, Kamel, and Randy, were dissatisfied with the investment opportunities available for land investments. They found it challenging to source and manage land, and the minimum investment required was often in the thousands of euros, making it difficult for many people to access this type of investment.
-As a result, they created a digital platform to provide everyone with the opportunity to invest in land, which they launched in September 2021.
-LandEx is the first crowdfunding land investment platform in Europe, offering investors an opportunity to invest in land projects with a low minimum investment.
+Ettevõtte eesmärk on saada suurimaks maainvesteeringute platvormiks Euroopas, pakkudes lahendust, mida varem turul ei olnud võimalik saada.
+LandExi asutajad Kamel ja Randy olid rahulolematud maainvesteeringute investeerimisvõimalustega. Nad leidsid, et maa leidmine ja haldamine on keeruline ning nõutav minimaalne investeering on sageli tuhandete eurode suurune, mistõttu on paljudel inimestel raske seda liiki investeeringuid teha.
+Selle tulemusena lõid nad digitaalse platvormi, et pakkuda kõigile võimalust investeerida maasse, mille nad käivitasid 2021. aasta septembris.
+LandEx on esimene ühisrahastuse maainvesteeringute platvorm Euroopas, mis pakub investoritele võimalust investeerida maaprojektidesse madala minimaalse investeeringuga.
 
-The platform enables investors to browse a range of investment opportunities, choose the projects they want to invest in, and invest in just a few clicks. LandEx also provides investors full transparency and control over their investments, including tracking the progress of the projects in real time.
+Platvorm võimaldab investoritel sirvida erinevaid investeerimisvõimalusi, valida projektid, millesse nad soovivad investeerida, ja investeerida vaid paari klikiga. LandEx pakub investoritele ka täielikku läbipaistvust ja kontrolli oma investeeringute üle, sealhulgas projektide edenemise jälgimist reaalajas.
 
-With LandEx's innovative and user-friendly platform, investing in the land has never been more accessible. The company's mission to democratize land investment is an exciting development for those interested in investing in this asset class, providing a low-risk and high-yield investment option that was previously inaccessible to many.''')
+LandExi uuendusliku ja kasutajasõbraliku platvormi abil ei ole maasse investeerimine kunagi varem olnud kättesaadavam. Ettevõtte missioon demokratiseerida maainvesteeringuid on põnev areng neile, kes on huvitatud sellesse varaklassi investeerimisest, pakkudes madala riskiga ja kõrge tootlusega investeerimisvõimalust, mis varem oli paljudele kättesaamatu.
+
+Translated with www.DeepL.com/Translator (free version)''')
 
 
 # FIGURE - Historical Sales Volume by Land Type
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-historical-sales-volume-by-land-type' target='_self'>Historical Sales Volume by Land Type</a>
+     <a href='./Estonian_Index_-_EE#joonis-ajalooline-m-gimaht-maat-pide-kaupa' target='_self'>Ajalooline müügimaht maatüüpide kaupa</a>
 """, unsafe_allow_html=True)
 
 df = pd.read_csv('data/maaamet_farm_forest_2022.csv')
-toc.subheader('Figure - Historical Sales Volume by Land Type')
+toc.subheader('Joonis - Ajalooline müügimaht maatüüpide kaupa')
 fig = px.bar(df, x='year', y='total_volume_eur',
              hover_data=['year', 'avg_price_eur', 'total_volume_eur', 'county', 'region'], color='land_type',
              labels={'avg_price_eur':'Average price (EUR per hectar)'}, height=400)
 fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
 st.plotly_chart(fig, use_container_width=True)
-create_paragraph('''The Land Index provides an overview of the fluctuations in the prices of farmland and forest land.
-It's noteworthy that these prices have experienced a noticeable increase in recent years.''')
+create_paragraph('''Maaindeks annab ülevaate põllu- ja metsamaa hinna kõikumisest.
+Tähelepanuväärne on, et need hinnad on viimastel aastatel märgatavalt tõusnud.''')
 
 # FIGURE - Relative price of land by region - point of time data (2020)
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-relative-price-of-land-by-region-point-of-time-data-2020' target='_self'>Relative price of land by region - point of time data (2020)</a>
+     <a href='./Estonian_Index_-_EE#joonis-maa-suhteline-hind-piirkonniti-hetkeandmed-2020' target='_self'>Maa suhteline hind piirkonniti - hetkeandmed (2020)</a>
 """, unsafe_allow_html=True)
-toc.subheader('Figure - Relative price of land by region - point of time data (2020)')
+toc.subheader('Joonis - Maa suhteline hind piirkonniti - hetkeandmed (2020)')
 fig = px.treemap(df, path=['land_type', 'county', 'region'], values='total_volume_eur',
                   color='avg_price_eur', hover_data=['region'],
                   color_continuous_scale='RdBu',
                   color_continuous_midpoint=np.average(df['avg_price_eur'], weights=df['total_volume_eur']))
 fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
 st.plotly_chart(fig, use_container_width=True)
-create_paragraph('''Based on the data available up until 2020, we can observe the following trends:
+create_paragraph('''Kuni 2020. aastani kättesaadavate andmete põhjal võib täheldada järgmisi suundumusi:
 
-Price Range - The prices for land in Hiiumaa, a remote island in Estonia, ranged from around 2400 EUR per hectare at the lower end to some of the highest prices.
+Hinnavahemik - Hiiumaal, Eesti kaugel asuval saarel, varieerusid maa hinnad alates umbes 2400 eurost hektari kohta alumisest otsast kuni mõningate kõrgeimate hindadeni.
 
-Land Type - Forest land, on average, was more expensive than farmland.
+Maatüüp - Metsamaa oli keskmiselt kallim kui põllumaa.
 
-These observations provide valuable insights into the current state of the land market and can help inform decision-making for those looking to buy or sell land.''')
+Need tähelepanekud annavad väärtusliku ülevaate maaturu praegusest olukorrast ja võivad aidata otsuste tegemisel neile, kes soovivad maad osta või müüa.''')
 
 #FIGURE - Average price vs average plot size
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-average-price-vs-average-plot-size' target='_self'>Average price vs average plot size</a>
+     <a href='./Estonian_Index_-_EE#joonis-keskmine-hind-vs-keskmine-maat-ki-suurus' target='_self'>Keskmine hind vs. keskmine maatüki suurus</a>
 """, unsafe_allow_html=True)
-toc.subheader('Figure - Average price vs average plot size')
+toc.subheader('Joonis - Keskmine hind vs. keskmine maatüki suurus')
 fig = px.scatter(df, x="average_area", y="avg_price_eur", color="county",
                  size='total_volume_eur', hover_data=['region'])
 fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
 st.plotly_chart(fig, use_container_width=True)
-create_paragraph('''The provided graph visualizes the relationship between two variables, average_area, and avg_price_eur, for various counties within a given region. Each point on the graph represents a county, with the color of the point indicating the specific county and the size of the point representing the total sales volume in euros.''')
+create_paragraph('''Esitatud graafik visualiseerib kahe muutuja, keskmine_pindala ja keskmine_hind_eur, vahelist seost erinevate maakondade kohta antud piirkonnas. Iga punkt graafikul tähistab maakonda, kusjuures punkti värv näitab konkreetset maakonda ja punkti suurus tähistab müügi kogumahtu eurodes.''')
 
 #FIGURE - Relationship between Land Area and Transaction Volume
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-average-price-vs-average-plot-size' target='_self'>Relationship between Land Area and Transaction Volume</a>
+     <a href='./Estonian_Index_-_EE#joonis-maa-ala-ja-tehingumahu-vaheline-seos' target='_self'>Maa-ala ja tehingumahu vaheline seos</a>
 """, unsafe_allow_html=True)
 
-toc.subheader('Figure - Relationship between Land Area and Transaction Volume')
+toc.subheader('Joonis - Maa-ala ja tehingumahu vaheline seos')
 fig = px.scatter(df, x="average_area", y="total_volume_eur", color="land_type")
 fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
 st.plotly_chart(fig, use_container_width=True)
@@ -126,70 +128,70 @@ st.plotly_chart(fig, use_container_width=True)
 #FIGURE - Forest land Index
 index_df = pd.read_csv('data/total_land_index.csv')
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-forest-land-index' target='_self'>Forest land Index</a>
+     <a href='./Estonian_Index_-_EE#joonis-metsamaa-indeks' target='_self'>Metsamaa indeks</a>
 """, unsafe_allow_html=True)
 
-toc.subheader('Figure - Forest land Index')
+toc.subheader('Joonis - Metsamaa indeks')
 forest_index_fig = px.area(index_df, x="year", y="forest_avg_eur", color_discrete_sequence=['green'])
-forest_index_fig.update_yaxes(title_text='The average price in EUR per hectare, forest land')
-forest_index_fig.update_xaxes(title_text='Year')
+forest_index_fig.update_yaxes(title_text='Keskmine hind eurodes hektari kohta, metsamaa')
+forest_index_fig.update_xaxes(title_text='Aasta')
 st.plotly_chart(forest_index_fig, use_container_width=True)
 
 #FIGURE - Farmland Index
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-farm-land-index' target='_self'>Farm land Index</a>
+     <a href='./Estonian_Index_-_EE#joonis-p-llumaa-indeks' target='_self'>Põllumaa indeks</a>
 """, unsafe_allow_html=True)
 
-toc.subheader('Figure - Farmland Index')
+toc.subheader('Joonis - Põllumaa indeks')
 farm_index_fig = px.area(index_df, x="year", y="farmland_avg_eur", color_discrete_sequence=['orange']) 
-farm_index_fig.update_yaxes(title_text='The average price in EUR per hectare, farmland')
-farm_index_fig.update_xaxes(title_text='Year')
+farm_index_fig.update_yaxes(title_text='Keskmine hind eurodes hektari kohta, põllumajandusmaa')
+farm_index_fig.update_xaxes(title_text='Aasta')
 st.plotly_chart(farm_index_fig, use_container_width=True)
 
 #FIGURE - All Types of Land Index
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-all-types-of-land-index' target='_self'>All Types of Land Index</a>
+     <a href='./Estonian_Index_-_EE#joonis-k-ik-maat-bid-indeks' target='_self'>Kõik maatüübid Indeks</a>
 """, unsafe_allow_html=True)
 
-toc.subheader('Figure - All Types of Land Index')
+toc.subheader('Joonis - Kõik maatüübid Indeks')
 total_index_fig = px.area(index_df, x="year", y="all_average_eur")
-total_index_fig.update_yaxes(title_text='The average price in EUR per hectare, all lands')
-total_index_fig.update_xaxes(title_text='Year')
+total_index_fig.update_yaxes(title_text='Keskmine hind eurodes hektari kohta, kõik maad')
+total_index_fig.update_xaxes(title_text='Aasta')
 st.plotly_chart(total_index_fig, use_container_width=True)
 
 #FIGURE - Land Volume Index
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-land-volume-index' target='_self'>Land Volume Index</a>
+     <a href='./Estonian_Index_-_EE#joonis-maa-mahuindeks' target='_self'>Maa mahuindeks</a>
 """, unsafe_allow_html=True)
 
 country_df = df.groupby(['land_type', 'year', 'county'])['total_volume_eur'].mean()
 index_df = df.groupby(['year'])['total_volume_eur'].mean()
 index_df.columns = ['country_index']
 index_df = country_df.reset_index()
-toc.subheader('Figure -Land Volume Index')
+toc.subheader('Joonis - Maa mahuindeks')
 country_fig = px.area(index_df, x="year", y="total_volume_eur", color="county", line_group="land_type")
 st.plotly_chart(country_fig, use_container_width=True)
 
 #FIGURE - Land Price Prediction
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-land-price-prediction' target='_self'>Land Price Prediction</a>
+     <a href='./Estonian_Index_-_EE#joonis-maa-hinna-prognoos' target='_self'>Maa hinna prognoos</a>
 """, unsafe_allow_html=True)
-toc.subheader('Figure - Land Price Prediction')
+toc.subheader('Joonis - Maa hinna prognoos')
 
 st.write("""
-# Explore Different Results
+# Uurige erinevaid tulemusi
 """)
 
 #st.sidebar.image("data/landex.png", use_column_width=True)
 
-dataset_name=st.selectbox("Select Dataset",("Estonia","France"))
-land_type=st.selectbox("Select type of land",("Forest land","Farmland",'Forest land and Farmland'))
-model_name=st.selectbox("Select Model",("Prophet","Linear Regression"))
+dataset_name=st.selectbox("Valige andmekogum",("Eesti", "Prantsusmaa"))
+land_type=st.selectbox("Valige maa liik",("Metsamaa", "Põllumaa",'Metsamaa ja põllumaa'))
+model_name=st.selectbox("Valige mudel",("Prophet","Linear Regression"))
 
 
 
 def get_model(model_name,dataset_name,land_type):
-    if model_name=='Prophet' and dataset_name=='Estonia' and land_type=='Forest land':
+    if model_name=='Prophet' and dataset_name=='Eesti' and land_type=='Metsamaa':
         df_est_forest = pd.read_csv('data/forest_land_estonia.csv')
         df_est_forest[['ds', 'y']] = df_est_forest[['year', 'avg_price_eur']]
         df_est_forest = df_est_forest[['ds', 'y']]
@@ -204,7 +206,7 @@ def get_model(model_name,dataset_name,land_type):
         fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
         return(st.plotly_chart(fig, use_container_width=True))
     
-    elif model_name=='Prophet' and dataset_name=='Estonia' and land_type=='Farmland':
+    elif model_name=='Prophet' and dataset_name=='Eesti' and land_type=='Põllumaa':
         df_est_farm = pd.read_csv('data/farmland_estonia.csv')
         df_est_farm[['ds', 'y']] = df_est_farm[['year', 'avg_price_eur']]
         df_est_farm = df_est_farm[['ds', 'y']]
@@ -221,7 +223,7 @@ def get_model(model_name,dataset_name,land_type):
         return(st.plotly_chart(fig, use_container_width=True))    
 
 
-    elif model_name=='Linear Regression' and dataset_name=='Estonia' and land_type=='Forest land and Farmland':
+    elif model_name=='Linear Regression' and dataset_name=='Eesti' and land_type=='Metsamaa ja Põllumaa':
         df = pd.read_csv('data/maaamet_farm_forest_2022.csv')
         X = df[['year',  'number', 'average_area',
        'total_volume_eur', 'price_min', 'price_max', 'price_per_unit_min',
@@ -235,7 +237,7 @@ def get_model(model_name,dataset_name,land_type):
         fig = px.scatter(x=y_test, y=predictions, labels={'x': 'y_test', 'y': 'predictions'})
         return(st.plotly_chart(fig, use_container_width=True))
     
-    elif model_name=='Linear Regression' and dataset_name=='France' and land_type=='Forest land and Farmland':
+    elif model_name=='Linear Regression' and dataset_name=='Prantsusmaa' and land_type=='Metsamaa ja Põllumaa':
         df = pd.read_csv('data/farm_forest_france.csv')
         df.dropna(inplace=True)
         df = pd.get_dummies(df, columns=['land_type'])
@@ -252,7 +254,7 @@ def get_model(model_name,dataset_name,land_type):
         return(st.plotly_chart(fig, use_container_width=True))
 
 
-    elif model_name=='Prophet' and dataset_name=='France' and land_type=='Forest land':
+    elif model_name=='Prophet' and dataset_name=='Prantsusmaa' and land_type=='Metsamaa':
         df_fra_forest = pd.read_csv('data/forest_land_france.csv',sep=';')
         df_fra_forest=df_fra_forest[df_fra_forest['country']=='FRA']
         df_fra_forest = df_fra_forest.drop(['indicator', 'Country name', 'country'], axis=1)
@@ -274,7 +276,7 @@ def get_model(model_name,dataset_name,land_type):
         return(st.plotly_chart(fig, use_container_width=True))
     
     
-    elif model_name=='Prophet' and dataset_name=='France' and land_type=='Farmland':
+    elif model_name=='Prophet' and dataset_name=='Prantsusmaa' and land_type=='Põllumaa':
         df_fra_farm = pd.read_csv('data/farmland_france.csv',sep=';')
         df_fra_farm=df_fra_farm[df_fra_farm['country']=='FRA']
         df_fra_farm = df_fra_farm.drop(['indicator', 'Country name', 'country'], axis=1)
@@ -294,6 +296,6 @@ def get_model(model_name,dataset_name,land_type):
         return(st.plotly_chart(fig, use_container_width=True))
 
 
-st.subheader(dataset_name+' '+land_type+' '+model_name+' Model')
+st.subheader(dataset_name+' '+land_type+' '+model_name+' Mudel')
 get_model(model_name,dataset_name,land_type)
 #st.plotly_chart(fig, use_container_width=True)
