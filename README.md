@@ -117,6 +117,6 @@ Run the Streamlit application on port 8501
 streamlit run --server.port 8501 Home.py
 streamlit run Home.py
 ```
-Now, we can acces the HTTPS address
+Now, we can acces the HTTPS address: 
 https://13.53.184.57/
   
