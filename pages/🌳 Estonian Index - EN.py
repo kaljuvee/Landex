@@ -83,22 +83,22 @@ st.plotly_chart(fig, use_container_width=True)
 create_paragraph('''The Land Index provides an overview of the fluctuations in the prices of farmland and forest land.
 It's noteworthy that these prices have experienced a noticeable increase in recent years.''')
 
-# FIGURE - Relative price of land by region - point of time data (2020)
+# FIGURE - Relative price of land by region - point of time data (2022)
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-relative-price-of-land-by-region-point-of-time-data-2020' target='_self'>Relative price of land by region - point of time data (2020)</a>
+     <a href='./Estonian_Index_-_EN#figure-relative-price-of-land-by-region-point-of-time-data-2022' target='_self'>Relative price of land by region - point of time data (2022)</a>
 """, unsafe_allow_html=True)
-toc.subheader('Figure - Relative price of land by region - point of time data (2020)')
+toc.subheader('Figure - Relative price of land by region - point of time data (2022)')
 fig = px.treemap(df, path=['land_type', 'county', 'region'], values='total_volume_eur',
                   color='avg_price_eur', hover_data=['region'],
                   color_continuous_scale='RdBu',
                   color_continuous_midpoint=np.average(df['avg_price_eur'], weights=df['total_volume_eur']))
 fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
 st.plotly_chart(fig, use_container_width=True)
-create_paragraph('''Based on the data available up until 2020, we can observe the following trends:
+create_paragraph('''Based on the data available up until 2022, we can observe the following trends:
 
 Price Range - The prices for land in Hiiumaa, a remote island in Estonia, ranged from around 2400 EUR per hectare at the lower end to some of the highest prices.
 
-Land Type - Forest land, on average, was more expensive than farmland.
+Land Type - On average, forest land was more expensive than farmland.
 
 These observations provide valuable insights into the current state of the land market and can help inform decision-making for those looking to buy or sell land.''')
 
@@ -111,18 +111,24 @@ fig = px.scatter(df, x="average_area", y="avg_price_eur", color="county",
                  size='total_volume_eur', hover_data=['region'])
 fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
 st.plotly_chart(fig, use_container_width=True)
-create_paragraph('''The provided graph visualizes the relationship between two variables, average_area, and avg_price_eur, for various counties within a given region. Each point on the graph represents a county, with the color of the point indicating the specific county and the size of the point representing the total sales volume in euros.''')
+create_paragraph('''The provided graph visualizes the relationship between two variables, average_area, and avg_price_eur, for various counties within a given region. Each point on the graph represents a county, with the color of the point indicating the specific county and the size of the point representing the total sales volume in euros.
+
+As we move from the top left to the bottom right, we can see a downward trend in the points, indicating that larger plots tend to have lower average prices and smaller plots tend to have higher average prices.''')
 
 #FIGURE - Relationship between Land Area and Transaction Volume
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-average-price-vs-average-plot-size' target='_self'>Relationship between Land Area and Transaction Volume</a>
+     <a href='./Estonian_Index_-_EN#figure-relationship-between-land-area-and-transaction-volume' target='_self'>Relationship between Land Area and Transaction Volume</a>
 """, unsafe_allow_html=True)
 
 toc.subheader('Figure - Relationship between Land Area and Transaction Volume')
 fig = px.scatter(df, x="average_area", y="total_volume_eur", color="land_type")
-fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
+fig.update_layout(
+    xaxis_title="Average Area (hectares)",
+    margin=dict(l=5, r=5, t=5, b=5)
+)
 st.plotly_chart(fig, use_container_width=True)
-
+create_paragraph('''The largest number of transactions were for plots that were approximately 10 hectares in size.
+''')
 #FIGURE - Forest land Index
 index_df = pd.read_csv('data/total_land_index.csv')
 st.sidebar.markdown("""
@@ -134,10 +140,11 @@ forest_index_fig = px.area(index_df, x="year", y="forest_avg_eur", color_discret
 forest_index_fig.update_yaxes(title_text='The average price in EUR per hectare, forest land')
 forest_index_fig.update_xaxes(title_text='Year')
 st.plotly_chart(forest_index_fig, use_container_width=True)
-
+create_paragraph('''The average price of forest land grew from about 1,000 EUR per hectare in 2000 to about 8,000 EUR per hectare in 2022.
+''')
 #FIGURE - Farmland Index
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-farm-land-index' target='_self'>Farm land Index</a>
+     <a href='./Estonian_Index_-_EN#figure-farmland-index' target='_self'>Farmland Index</a>
 """, unsafe_allow_html=True)
 
 toc.subheader('Figure - Farmland Index')
@@ -145,18 +152,20 @@ farm_index_fig = px.area(index_df, x="year", y="farmland_avg_eur", color_discret
 farm_index_fig.update_yaxes(title_text='The average price in EUR per hectare, farmland')
 farm_index_fig.update_xaxes(title_text='Year')
 st.plotly_chart(farm_index_fig, use_container_width=True)
-
-#FIGURE - All Types of Land Index
+create_paragraph('''The average price of forest land grew from about 280 EUR per hectare in 2000 to about 4,800 EUR per hectare in 2022.
+''')
+#FIGURE - Farmland and Forest Land Total Index
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-all-types-of-land-index' target='_self'>All Types of Land Index</a>
+     <a href='./Estonian_Index_-_EN#figure-farmland-and-forest-land-total-index' target='_self'>Farmland and Forest Land Total Index</a>
 """, unsafe_allow_html=True)
 
-toc.subheader('Figure - All Types of Land Index')
+toc.subheader('Figure - Farmland and Forest Land Total Index')
 total_index_fig = px.area(index_df, x="year", y="all_average_eur")
-total_index_fig.update_yaxes(title_text='The average price in EUR per hectare, all lands')
+total_index_fig.update_yaxes(title_text='The average price in EUR per hectare, Farmland and Forest Land')
 total_index_fig.update_xaxes(title_text='Year')
 st.plotly_chart(total_index_fig, use_container_width=True)
-
+create_paragraph('''The average price of forest land grew from about 730 EUR per hectare in 2000 to about 6,600 EUR per hectare in 2022.
+''')
 #FIGURE - Land Volume Index
 st.sidebar.markdown("""
      <a href='./Estonian_Index_-_EN#figure-land-volume-index' target='_self'>Land Volume Index</a>
@@ -169,131 +178,80 @@ index_df = country_df.reset_index()
 toc.subheader('Figure -Land Volume Index')
 country_fig = px.area(index_df, x="year", y="total_volume_eur", color="county", line_group="land_type")
 st.plotly_chart(country_fig, use_container_width=True)
+create_paragraph('''The total volume of transactions of all lands grew from about 4 million EUR in 2000 to about 58m EUR in 2022.
+''')
+
+#Top performers - Price Performance
+st.sidebar.markdown("""
+     <a href='./Estonian_Index_-_EN#top-performers-price-performance-county' target='_self'>Top performers - Price Performance (County)</a>
+""", unsafe_allow_html=True)
+toc.subheader('Top performers - Price Performance (County)')
+df=pd.read_csv('data/maaamet_farm_forest_2022.csv')
+country_df = df.groupby(['land_type', 'year', 'county'])['total_volume_eur'].mean()
+index_df = df.groupby(['year'])['total_volume_eur'].mean()
+index_df.columns = ['country_index']
+index_df = country_df.reset_index()
+sorted_data =index_df.sort_values(by='total_volume_eur', ascending=False).head(5)
+st.table(sorted_data)
 
 #FIGURE - Land Price Prediction
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-land-price-prediction' target='_self'>Land Price Prediction</a>
+     <a href='./Estonian_Index_-_EN#land-price-prediction' target='_self'>Land Price Prediction</a>
 """, unsafe_allow_html=True)
-toc.subheader('Figure - Land Price Prediction')
+toc.subheader('Land Price Prediction')
 
-st.write("""
-# Explore Different Results
+
+#Estonia Forest Land Prophet Model - Estonian Forest Land Prediction
+st.subheader("""
+     Estonia Forest Land Prophet Model - Estonian Forest Land Prediction
 """)
+df_est_forest = pd.read_csv('data/forest_land_estonia.csv')
+df_est_forest[['ds', 'y']] = df_est_forest[['year', 'avg_price_eur']]
+df_est_forest = df_est_forest[['ds', 'y']]
+m = Prophet()
+m.fit(df_est_forest)
+future = m.make_future_dataframe(periods = 20818)     
+forecast = m.predict(future.tail(1461))
+m.plot(forecast)
+fig1 = plot_plotly(m, forecast) 
+st.plotly_chart(fig1) 
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
+st.plotly_chart(fig, use_container_width=True)
 
-#st.sidebar.image("data/landex.png", use_column_width=True)
+#Estonia Farmland Prophet Model - Estonian Farmland Prediction
+st.subheader("""
+     Estonia Farmland Prophet Model - Estonian Farmland Prediction
+""")
+df_est_farm = pd.read_csv('data/farmland_estonia.csv')
+df_est_farm[['ds', 'y']] = df_est_farm[['year', 'avg_price_eur']]
+df_est_farm = df_est_farm[['ds', 'y']]
+m = Prophet()
+m.fit(df_est_farm)
+future = m.make_future_dataframe(periods = 20818)
+forecast = m.predict(future.tail(1461))
+m.plot(forecast)
+fig1 = plot_plotly(m, forecast) 
+st.plotly_chart(fig1) 
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
+st.plotly_chart(fig, use_container_width=True)
 
-dataset_name=st.selectbox("Select Dataset",("Estonia","France"))
-land_type=st.selectbox("Select type of land",("Forest land","Farmland",'Forest land and Farmland'))
-model_name=st.selectbox("Select Model",("Prophet","Linear Regression"))
+#Estonia Forest land and Farmland Prophet Model - Estonian Forest Land and Farmland Prediction
+st.subheader("""
+     Estonia Forest land and Farmland Prophet Model - Estonian Forest Land and Farmland Prediction
+""")
+df_est_for_farm = pd.read_csv('data/maaamet_farm_forest_2022.csv')
+df_est_for_farm[['ds', 'y']] = df_est_for_farm[['year', 'avg_price_eur']]
+df_est_for_farm = df_est_for_farm[['ds', 'y']]
+m = Prophet()
+m.fit(df_est_for_farm)
+future = m.make_future_dataframe(periods = 20818)
+forecast = m.predict(future.tail(1461))
+m.plot(forecast)
+fig1 = plot_plotly(m, forecast) 
+st.plotly_chart(fig1) 
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
+st.plotly_chart(fig, use_container_width=True)
 
-
-
-def get_model(model_name,dataset_name,land_type):
-    if model_name=='Prophet' and dataset_name=='Estonia' and land_type=='Forest land':
-        df_est_forest = pd.read_csv('data/forest_land_estonia.csv')
-        df_est_forest[['ds', 'y']] = df_est_forest[['year', 'avg_price_eur']]
-        df_est_forest = df_est_forest[['ds', 'y']]
-        m = Prophet()
-        m.fit(df_est_forest)
-        future = m.make_future_dataframe(periods = 20818)     
-        forecast = m.predict(future.tail(1461))
-        m.plot(forecast)
-        fig1 = plot_plotly(m, forecast) 
-        st.plotly_chart(fig1) 
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
-        return(st.plotly_chart(fig, use_container_width=True))
-    
-    elif model_name=='Prophet' and dataset_name=='Estonia' and land_type=='Farmland':
-        df_est_farm = pd.read_csv('data/farmland_estonia.csv')
-        df_est_farm[['ds', 'y']] = df_est_farm[['year', 'avg_price_eur']]
-        df_est_farm = df_est_farm[['ds', 'y']]
-        
-        m = Prophet()
-        m.fit(df_est_farm)
-        future = m.make_future_dataframe(periods = 20818)
-        forecast = m.predict(future.tail(1461))
-        m.plot(forecast)
-        fig1 = plot_plotly(m, forecast) 
-        st.plotly_chart(fig1) 
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
-        return(st.plotly_chart(fig, use_container_width=True))    
-
-
-    elif model_name=='Linear Regression' and dataset_name=='Estonia' and land_type=='Forest land and Farmland':
-        df = pd.read_csv('data/maaamet_farm_forest_2022.csv')
-        X = df[['year',  'number', 'average_area',
-       'total_volume_eur', 'price_min', 'price_max', 'price_per_unit_min',
-       'price_per_unit_max', 'price_per_unit_median',
-       'standard_deviation']]
-        y = df['avg_price_eur']
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=101)
-        lm = LinearRegression()
-        lm.fit(X_train,y_train)
-        predictions = lm.predict(X_test)
-        fig = px.scatter(x=y_test, y=predictions, labels={'x': 'y_test', 'y': 'predictions'})
-        return(st.plotly_chart(fig, use_container_width=True))
-    
-    elif model_name=='Linear Regression' and dataset_name=='France' and land_type=='Forest land and Farmland':
-        df = pd.read_csv('data/farm_forest_france.csv')
-        df.dropna(inplace=True)
-        df = pd.get_dummies(df, columns=['land_type'])
-        X = df.drop('price', axis=1)
-        y = df['price']
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        print(y_test.shape)
-        print(X_test.shape)
-        model = LinearRegression()
-        model.fit(X_train, y_train)
-
-        predictions = model.predict(X_test)
-        fig = px.scatter(x=y_test, y=predictions, labels={'x': 'y_test', 'y': 'predictions'})
-        return(st.plotly_chart(fig, use_container_width=True))
-
-
-    elif model_name=='Prophet' and dataset_name=='France' and land_type=='Forest land':
-        df_fra_forest = pd.read_csv('data/forest_land_france.csv',sep=';')
-        df_fra_forest=df_fra_forest[df_fra_forest['country']=='FRA']
-        df_fra_forest = df_fra_forest.drop(['indicator', 'Country name', 'country'], axis=1)
-        df_fra_forest = df_fra_forest.rename(columns={'Indicator name': 'land_type', 'time': 'year', 'value': 'price'})
-        df_fra_forest['land_type']='Forest land'
-        df_fra_forest = df_fra_forest.reset_index(drop=True)
-        df_fra_forest[['ds', 'y']] = df_fra_forest[['year', 'price']]
-        df_fra_forest = df_fra_forest[['ds', 'y']]
-        m = Prophet()
-        m.fit(df_fra_forest)
-        future = m.make_future_dataframe(periods=18992)
-        forecast = m.predict(future.tail(1461))
-
-        m.plot(forecast)
-        fig1 = plot_plotly(m, forecast) 
-        st.plotly_chart(fig1) 
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
-        return(st.plotly_chart(fig, use_container_width=True))
-    
-    
-    elif model_name=='Prophet' and dataset_name=='France' and land_type=='Farmland':
-        df_fra_farm = pd.read_csv('data/farmland_france.csv',sep=';')
-        df_fra_farm=df_fra_farm[df_fra_farm['country']=='FRA']
-        df_fra_farm = df_fra_farm.drop(['indicator', 'Country name', 'country'], axis=1)
-        df_fra_farm = df_fra_farm.rename(columns={'Indicator name': 'land_type', 'time': 'year', 'value': 'price'})
-        df_fra_farm = df_fra_farm.reset_index(drop=True)
-        df_fra_farm[['ds', 'y']] = df_fra_farm[['year', 'price']]
-        df_fra_farm = df_fra_farm[['ds', 'y']]
-        m = Prophet()
-        m.fit(df_fra_farm)
-        future = m.make_future_dataframe(periods=16070)
-        forecast = m.predict(future.tail(1461))
-        m.plot(forecast)
-        fig1 = plot_plotly(m, forecast) 
-        st.plotly_chart(fig1) 
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
-        return(st.plotly_chart(fig, use_container_width=True))
-
-
-st.subheader(dataset_name+' '+land_type+' '+model_name+' Model')
-get_model(model_name,dataset_name,land_type)
-#st.plotly_chart(fig, use_container_width=True)
