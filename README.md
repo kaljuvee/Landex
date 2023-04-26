@@ -108,5 +108,11 @@ Test the Nginx configuration and restart the Nginx service
 sudo nginx –t
 sudo service nginx restart
 ```
+### Connect to EC2 instance
+```bash
+ssh -i "landex-streamlit-app-key.pem" ubuntu@ec2-13-53-184-57.eu-north-1.compute.amazonaws.com
+streamlit run --server.port 8501 Home.py
+streamlit run Home.py
+```
 
   
