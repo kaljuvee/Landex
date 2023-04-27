@@ -51,9 +51,9 @@ st.title('Eesti maaindeks')
 
 # Overview
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#overview' target='_self'>Overview</a>
+     <a href='./Estonian_Index_-_EN#overview' target='_self'>Ülevaade</a>
 """, unsafe_allow_html=True)
-toc.header('Overview')
+toc.header('Ülevaade')
 create_paragraph('''LandEx on Tallinnas asuv idufirma, mille eesmärk on demokratiseerida maainvesteeringuid.
 
 Nad usuvad, et maa on suurepärane varaklass, mis pakub oma majanduslike põhialuste tõttu kõrget tootlust ja madalat riski ning seetõttu peaks see olema kõigile kättesaadav.
@@ -70,7 +70,7 @@ LandExi uuendusliku ja kasutajasõbraliku platvormi abil ei ole maasse investeer
 
 # FIGURE - Historical Sales Volume by Land Type
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-historical-sales-volume-by-land-type' target='_self'>Historical Sales Volume by Land Type</a>
+     <a href='./Estonian_Index_-_EN#figure-historical-sales-volume-by-land-type' target='_self'>Ajalooline müügimaht maatüüpide kaupa</a>
 """, unsafe_allow_html=True)
 
 df = pd.read_csv('/home/ubuntu/Landex/data/maaamet_farm_forest_2022.csv')
@@ -85,7 +85,7 @@ Tähelepanuväärne on, et need hinnad on viimastel aastatel märgatavalt tõusn
 
 # FIGURE - Relative price of land by region - point of time data (2022)
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-relative-price-of-land-by-region-point-of-time-data-2022' target='_self'>Relative price of land by region - point of time data (2022)</a>
+     <a href='./Estonian_Index_-_EN#figure-relative-price-of-land-by-region-point-of-time-data-2022' target='_self'>Maa suhteline hind piirkonniti - ajahetke andmed (2022)</a>
 """, unsafe_allow_html=True)
 toc.subheader('Joonis - Maa suhteline hind piirkonniti - hetkeandmed (2022)')
 fig = px.treemap(df, path=['land_type', 'county', 'region'], values='total_volume_eur',
@@ -104,7 +104,7 @@ Need tähelepanekud annavad väärtusliku ülevaate maaturu praegusest olukorras
 
 #FIGURE - Average price vs average plot size
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-average-price-vs-average-plot-size' target='_self'>Average price vs average plot size</a>
+     <a href='./Estonian_Index_-_EN#figure-average-price-vs-average-plot-size' target='_self'>Keskmine hind vs. keskmine maatüki suurus</a>
 """, unsafe_allow_html=True)
 toc.subheader('Joonis - Keskmine hind vs. keskmine maatüki suurus')
 fig = px.scatter(df, x="average_area", y="avg_price_eur", color="county",
@@ -117,7 +117,7 @@ Liikudes vasakult ülevalt paremale allapoole, näeme punktide langustendentsi, 
 
 #FIGURE - Relationship between Land Area and Transaction Volume
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-relationship-between-land-area-and-transaction-volume' target='_self'>Relationship between Land Area and Transaction Volume</a>
+     <a href='./Estonian_Index_-_EN#figure-relationship-between-land-area-and-transaction-volume' target='_self'>Maa-ala ja tehingumahu vaheline seos</a>
 """, unsafe_allow_html=True)
 
 toc.subheader('Joonis - Maa-ala ja tehingumahu vaheline seos')
@@ -132,7 +132,7 @@ create_paragraph('''Kõige rohkem tehinguid tehti ligikaudu 10 hektari suuruste 
 #FIGURE - Forest land Index
 index_df = pd.read_csv('/home/ubuntu/Landex/data/total_land_index.csv')
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-forest-land-index' target='_self'>Forest land Index</a>
+     <a href='./Estonian_Index_-_EN#figure-forest-land-index' target='_self'>Metsamaa indeks</a>
 """, unsafe_allow_html=True)
 
 toc.subheader('Joonis - Metsamaa indeks')
@@ -144,7 +144,7 @@ create_paragraph('''Metsamaa keskmine hind kasvas umbes 1000 eurolt hektari koht
 ''')
 #FIGURE - Farmland Index
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-farmland-index' target='_self'>Farmland Index</a>
+     <a href='./Estonian_Index_-_EN#figure-farmland-index' target='_self'>põllumajandusmaa indeks</a>
 """, unsafe_allow_html=True)
 
 toc.subheader('Joonis - põllumajandusmaa indeks')
@@ -156,7 +156,7 @@ create_paragraph('''Metsamaa keskmine hind kasvas umbes 280 eurolt hektari kohta
 ''')
 #FIGURE - Farmland and Forest Land Total Index
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-farmland-and-forest-land-total-index' target='_self'>Farmland and Forest Land Total Index</a>
+     <a href='./Estonian_Index_-_EN#figure-farmland-and-forest-land-total-index' target='_self'>Põllu- ja metsamaa Koguindeks</a>
 """, unsafe_allow_html=True)
 
 toc.subheader('Joonis - Põllu- ja metsamaa koguindeks')
@@ -168,7 +168,7 @@ create_paragraph('''Metsamaa keskmine hind kasvas umbes 730 eurolt hektari kohta
 ''')
 #FIGURE - Land Volume Index
 st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-land-volume-index' target='_self'>Land Volume Index</a>
+     <a href='./Estonian_Index_-_EN#figure-land-volume-index' target='_self'>Maa mahuindeks</a>
 """, unsafe_allow_html=True)
 
 country_df = df.groupby(['land_type', 'year', 'county'])['total_volume_eur'].mean()
