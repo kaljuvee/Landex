@@ -192,7 +192,7 @@ model_name=st.selectbox("Valige mudel",("Prophet","Linear Regression"))
 
 def get_model(model_name,dataset_name,land_type):
     if model_name=='Prophet' and dataset_name=='Eesti' and land_type=='Metsamaa':
-        df_est_forest = pd.read_csv('data/forest_land_estonia.csv')
+        df_est_forest = pd.read_csv('/home/ubuntu/Landex/data/forest_land_estonia.csv')
         df_est_forest[['ds', 'y']] = df_est_forest[['year', 'avg_price_eur']]
         df_est_forest = df_est_forest[['ds', 'y']]
         m = Prophet()
@@ -207,7 +207,7 @@ def get_model(model_name,dataset_name,land_type):
         return(st.plotly_chart(fig, use_container_width=True))
     
     elif model_name=='Prophet' and dataset_name=='Eesti' and land_type=='Põllumaa':
-        df_est_farm = pd.read_csv('data/farmland_estonia.csv')
+        df_est_farm = pd.read_csv('/home/ubuntu/Landex/data/farmland_estonia.csv')
         df_est_farm[['ds', 'y']] = df_est_farm[['year', 'avg_price_eur']]
         df_est_farm = df_est_farm[['ds', 'y']]
         
@@ -224,7 +224,7 @@ def get_model(model_name,dataset_name,land_type):
 
 
     elif model_name=='Linear Regression' and dataset_name=='Eesti' and land_type=='Metsamaa ja Põllumaa':
-        df = pd.read_csv('data/maaamet_farm_forest_2022.csv')
+        df = pd.read_csv('/home/ubuntu/Landex/data/maaamet_farm_forest_2022.csv')
         X = df[['year',  'number', 'average_area',
        'total_volume_eur', 'price_min', 'price_max', 'price_per_unit_min',
        'price_per_unit_max', 'price_per_unit_median',
@@ -238,7 +238,7 @@ def get_model(model_name,dataset_name,land_type):
         return(st.plotly_chart(fig, use_container_width=True))
     
     elif model_name=='Linear Regression' and dataset_name=='Prantsusmaa' and land_type=='Metsamaa ja Põllumaa':
-        df = pd.read_csv('data/farm_forest_france.csv')
+        df = pd.read_csv('/home/ubuntu/Landex/data/farm_forest_france.csv')
         df.dropna(inplace=True)
         df = pd.get_dummies(df, columns=['land_type'])
         X = df.drop('price', axis=1)
@@ -255,7 +255,7 @@ def get_model(model_name,dataset_name,land_type):
 
 
     elif model_name=='Prophet' and dataset_name=='Prantsusmaa' and land_type=='Metsamaa':
-        df_fra_forest = pd.read_csv('data/forest_land_france.csv',sep=';')
+        df_fra_forest = pd.read_csv('/home/ubuntu/Landex/data/forest_land_france.csv',sep=';')
         df_fra_forest=df_fra_forest[df_fra_forest['country']=='FRA']
         df_fra_forest = df_fra_forest.drop(['indicator', 'Country name', 'country'], axis=1)
         df_fra_forest = df_fra_forest.rename(columns={'Indicator name': 'land_type', 'time': 'year', 'value': 'price'})
@@ -277,7 +277,7 @@ def get_model(model_name,dataset_name,land_type):
     
     
     elif model_name=='Prophet' and dataset_name=='Prantsusmaa' and land_type=='Põllumaa':
-        df_fra_farm = pd.read_csv('data/farmland_france.csv',sep=';')
+        df_fra_farm = pd.read_csv('/home/ubuntu/Landex/data/farmland_france.csv',sep=';')
         df_fra_farm=df_fra_farm[df_fra_farm['country']=='FRA']
         df_fra_farm = df_fra_farm.drop(['indicator', 'Country name', 'country'], axis=1)
         df_fra_farm = df_fra_farm.rename(columns={'Indicator name': 'land_type', 'time': 'year', 'value': 'price'})
