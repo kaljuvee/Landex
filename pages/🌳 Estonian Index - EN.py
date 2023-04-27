@@ -181,7 +181,7 @@ st.plotly_chart(country_fig, use_container_width=True)
 create_paragraph('''The total volume of transactions of all lands grew from about 4 million EUR in 2000 to about 58m EUR in 2022.
 ''')
 
-#Top performers - Price Performance
+#Top performers - Price Performance (County)
 st.sidebar.markdown("""
      <a href='./Estonian_Index_-_EN#top-performers-price-performance-county' target='_self'>Top performers - Price Performance (County)</a>
 """, unsafe_allow_html=True)
