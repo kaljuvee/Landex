@@ -111,6 +111,7 @@ sudo service nginx restart
 ### Connect to EC2 instance
 ```bash
 ssh -i "landex-streamlit-app-key.pem" ubuntu@ec2-13-53-184-57.eu-north-1.compute.amazonaws.com
+cd Landex
 ```
 Run the Streamlit application on port 8501
 ```bash
