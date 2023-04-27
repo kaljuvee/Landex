@@ -5,5 +5,5 @@ st.set_page_config(
     page_icon="data/landex.ico",
 )
 
-#with st.container():
-#    st.image("data/landex-logo-2.png", use_column_width=True)
+with st.container():
+    st.image("./data/landex-logo-2.png", use_column_width=True)
