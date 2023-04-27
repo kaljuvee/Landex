@@ -46,7 +46,7 @@ def create_paragraph(text):
 toc = Toc()
 
 # TITLE
-st.image("/home/ubuntu/Landex/data//landex.png",width=200)
+st.image("/home/ubuntu/Landex/data/landex.png",width=200)
 st.title('Estonian Land Index')
 
 # Overview

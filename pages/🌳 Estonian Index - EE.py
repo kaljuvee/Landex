@@ -15,7 +15,7 @@ from StreamlitHelper import Toc, get_img_with_href, read_df, create_table
 
 st.set_page_config(
     page_title="Land Index",
-    page_icon="data/landex.ico",
+    page_icon="/home/ubuntu/Landex/data/landex.ico",
 )
 
 # inject CSS to hide row indexes and style fullscreen button
@@ -46,7 +46,7 @@ def create_paragraph(text):
 toc = Toc()
 
 # TITLE
-st.image("data/landex.png",width=200)
+st.image("/home/ubuntu/Landex/data/landex.png",width=200)
 st.title('Eesti maaindeks')
 
 # Overview
@@ -75,7 +75,7 @@ st.sidebar.markdown("""
      <a href='./Estonian_Index_-_EE#joonis-ajalooline-m-gimaht-maat-pide-kaupa' target='_self'>Ajalooline müügimaht maatüüpide kaupa</a>
 """, unsafe_allow_html=True)
 
-df = pd.read_csv('data/maaamet_farm_forest_2022.csv')
+df = pd.read_csv('/home/ubuntu/Landex/data/maaamet_farm_forest_2022.csv')
 toc.subheader('Joonis - Ajalooline müügimaht maatüüpide kaupa')
 fig = px.bar(df, x='year', y='total_volume_eur',
              hover_data=['year', 'avg_price_eur', 'total_volume_eur', 'county', 'region'], color='land_type',
@@ -126,7 +126,7 @@ fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
 st.plotly_chart(fig, use_container_width=True)
 
 #FIGURE - Forest land Index
-index_df = pd.read_csv('data/total_land_index.csv')
+index_df = pd.read_csv('/home/ubuntu/Landex/data/total_land_index.csv')
 st.sidebar.markdown("""
      <a href='./Estonian_Index_-_EE#joonis-metsamaa-indeks' target='_self'>Metsamaa indeks</a>
 """, unsafe_allow_html=True)
