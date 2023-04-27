@@ -6,4 +6,4 @@ st.set_page_config(
 )
 
 with st.container():
-    st.image("data/landex-logo-2.png", use_column_width=True)
+    st.image("/home/ubuntu/data/landex-logo-2.png", use_column_width=True)
