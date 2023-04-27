@@ -108,14 +108,30 @@ Test the Nginx configuration and restart the Nginx service
 sudo nginx –t
 sudo service nginx restart
 ```
-### Connect to EC2 instance
+### Create a systemd service for the Streamlit app
 ```bash
-ssh -i "landex-streamlit-app-key.pem" ubuntu@ec2-13-53-184-57.eu-north-1.compute.amazonaws.com
-cd Landex
+sudo nano /etc/systemd/system/streamlit-app.service
 ```
-Run the Streamlit application on port 8501
+Add the following configuration:
 ```bash
-streamlit run --server.port 8501 Home.py
+[Unit]
+Description=Streamlit App
+
+[Service]
+Type=simple
+User=ubuntu
+ExecStart=/home/ubuntu/venv/bin/streamlit run /home/ubuntu/Landex/Home.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+```bash
+sudo systemctl daemon-reload
+sudo systemctl start streamlit-app
+sudo systemctl status streamlit-app
+sudo systemctl enable streamlit-app
 ```
 Now, we can acces the HTTPS address: 
 https://13.53.184.57/
