@@ -133,6 +133,5 @@ sudo systemctl start streamlit-app
 sudo systemctl status streamlit-app
 sudo systemctl enable streamlit-app
 ```
-Now, we can acces the HTTPS address: 
-https://13.53.184.57/
+Now, we can acces the HTTPS address
   
