@@ -105,7 +105,7 @@ sudo certbot certonly --webroot --webroot-path=/var/www/html --email manelreghim
 ```
 Test the Nginx configuration and restart the Nginx service
 ```bash
-sudo nginx –t
+sudo nginx -t
 sudo service nginx restart
 ```
 ### Create a systemd service for the Streamlit app
