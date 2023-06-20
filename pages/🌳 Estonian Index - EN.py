@@ -15,7 +15,7 @@ from StreamlitHelper import Toc, get_img_with_href, read_df, create_table
 
 st.set_page_config(
     page_title="Land Index",
-    page_icon="../data/landex.ico",
+    page_icon="data/landex.ico",
 )
 
 # inject CSS to hide row indexes and style fullscreen button
@@ -46,7 +46,7 @@ def create_paragraph(text):
 toc = Toc()
 
 # TITLE
-st.image("../data/landex.png",width=200)
+st.image("data/landex.png",width=200)
 st.title('Estonian Land Index')
 
 # Overview
@@ -73,7 +73,7 @@ st.sidebar.markdown("""
      <a href='./Estonian_Index_-_EN#figure-historical-sales-volume-by-land-type' target='_self'>Historical Sales Volume by Land Type</a>
 """, unsafe_allow_html=True)
 
-df = pd.read_csv('../data/maaamet_farm_forest_2022.csv')
+df = pd.read_csv('data/maaamet_farm_forest_2022.csv')
 toc.subheader('Figure - Historical Sales Volume by Land Type')
 fig = px.bar(df, x='year', y='total_volume_eur',
              hover_data=['year', 'avg_price_eur', 'total_volume_eur', 'county', 'region'], color='land_type',
@@ -130,7 +130,7 @@ st.plotly_chart(fig, use_container_width=True)
 create_paragraph('''The largest number of transactions were for plots that were approximately 10 hectares in size.
 ''')
 #FIGURE - Forest land Index
-index_df = pd.read_csv('../data/total_land_index.csv')
+index_df = pd.read_csv('data/total_land_index.csv')
 st.sidebar.markdown("""
      <a href='./Estonian_Index_-_EN#figure-forest-land-index' target='_self'>Forest land Index</a>
 """, unsafe_allow_html=True)
@@ -186,7 +186,7 @@ st.sidebar.markdown("""
      <a href='./Estonian_Index_-_EN#top-performers-price-performance-county' target='_self'>Top performers - Price Performance (County)</a>
 """, unsafe_allow_html=True)
 toc.subheader('Top performers - Price Performance (County)')
-df=pd.read_csv('../data/maaamet_farm_forest_2022.csv')
+df=pd.read_csv('data/maaamet_farm_forest_2022.csv')
 country_df = df.groupby(['land_type', 'year', 'county'])['total_volume_eur'].mean()
 index_df = df.groupby(['year'])['total_volume_eur'].mean()
 index_df.columns = ['country_index']
@@ -205,7 +205,7 @@ toc.subheader('Land Price Prediction')
 st.subheader("""
      Estonia Forest Land Prophet Model - Estonian Forest Land Prediction
 """)
-df_est_forest = pd.read_csv('../data/forest_land_estonia.csv')
+df_est_forest = pd.read_csv('data/forest_land_estonia.csv')
 df_est_forest[['ds', 'y']] = df_est_forest[['year', 'avg_price_eur']]
 df_est_forest = df_est_forest[['ds', 'y']]
 m = Prophet()
@@ -223,7 +223,7 @@ st.plotly_chart(fig, use_container_width=True)
 st.subheader("""
      Estonia Farmland Prophet Model - Estonian Farmland Prediction
 """)
-df_est_farm = pd.read_csv('../data/farmland_estonia.csv')
+df_est_farm = pd.read_csv('data/farmland_estonia.csv')
 df_est_farm[['ds', 'y']] = df_est_farm[['year', 'avg_price_eur']]
 df_est_farm = df_est_farm[['ds', 'y']]
 m = Prophet()
@@ -241,7 +241,7 @@ st.plotly_chart(fig, use_container_width=True)
 st.subheader("""
      Estonia Forest land and Farmland Prophet Model - Estonian Forest Land and Farmland Prediction
 """)
-df_est_for_farm = pd.read_csv('../data/maaamet_farm_forest_2022.csv')
+df_est_for_farm = pd.read_csv('data/maaamet_farm_forest_2022.csv')
 df_est_for_farm[['ds', 'y']] = df_est_for_farm[['year', 'avg_price_eur']]
 df_est_for_farm = df_est_for_farm[['ds', 'y']]
 m = Prophet()
