@@ -13,6 +13,8 @@ from prophet import Prophet
 from prophet.plot import plot_plotly, plot_components_plotly
 from StreamlitHelper import Toc, get_img_with_href, read_df, create_table
 
+# DATA_DIR = '../data'
+
 st.set_page_config(
     page_title="Land Index",
     page_icon="../data/landex.ico",
@@ -46,7 +48,7 @@ def create_paragraph(text):
 toc = Toc()
 
 # TITLE
-st.image("/home/ubuntu/Landex/data/landex.png",width=200)
+st.image("../data//landex.png",width=200)
 st.title('Eesti maaindeks')
 
 # Overview
@@ -73,7 +75,7 @@ st.sidebar.markdown("""
      <a href='./Estonian_Index_-_EE#joonis-ajalooline-m-gimaht-maat-pide-kaupa' target='_self'>Ajalooline müügimaht maatüüpide kaupa</a>
 """, unsafe_allow_html=True)
 
-df = pd.read_csv('/home/ubuntu/Landex/data/maaamet_farm_forest_2022.csv')
+df = pd.read_csv('../data/maaamet_farm_forest_2022.csv')
 toc.subheader('Joonis - ajalooline müügimaht maatüüpide kaupa')
 fig = px.bar(df, x='year', y='total_volume_eur',
              hover_data=['year', 'avg_price_eur', 'total_volume_eur', 'county', 'region'], color='land_type',
@@ -130,7 +132,7 @@ st.plotly_chart(fig, use_container_width=True)
 create_paragraph('''Kõige rohkem tehinguid tehti ligikaudu 10 hektari suuruste maatükkidega.
 ''')
 #FIGURE - Forest land Index
-index_df = pd.read_csv('/home/ubuntu/Landex/data/total_land_index.csv')
+index_df = pd.read_csv('../data/total_land_index.csv')
 st.sidebar.markdown("""
      <a href='./Estonian_Index_-_EE#joonis-metsamaa-indeks' target='_self'>Metsamaa indeks</a>
 """, unsafe_allow_html=True)
@@ -186,7 +188,7 @@ st.sidebar.markdown("""
      <a href='./Estonian_Index_-_EE#tipptegijad-hinnatulemused-maakond' target='_self'>Tipptegijad - Hinnatulemused (maakond)</a>
 """, unsafe_allow_html=True)
 toc.subheader('Tipptegijad - Hinnatulemused (maakond)')
-df=pd.read_csv('/home/ubuntu/Landex/data/maaamet_farm_forest_2022.csv')
+df=pd.read_csv('../data/maaamet_farm_forest_2022.csv')
 country_df = df.groupby(['land_type', 'year', 'county'])['total_volume_eur'].mean()
 index_df = df.groupby(['year'])['total_volume_eur'].mean()
 index_df.columns = ['country_index']
@@ -205,7 +207,7 @@ toc.subheader('Maa hinna prognoosimine')
 st.subheader("""
      Eesti metsamaa prohveti mudel - Eesti metsamaa prognoosimine
 """)
-df_est_forest = pd.read_csv('/home/ubuntu/Landex/data/forest_land_estonia.csv')
+df_est_forest = pd.read_csv('../data/forest_land_estonia.csv')
 df_est_forest[['ds', 'y']] = df_est_forest[['year', 'avg_price_eur']]
 df_est_forest = df_est_forest[['ds', 'y']]
 m = Prophet()
@@ -223,7 +225,7 @@ st.plotly_chart(fig, use_container_width=True)
 st.subheader("""
      Eesti põllumaa prohveti mudel - Eesti põllumaa prognoosimine
 """)
-df_est_farm = pd.read_csv('/home/ubuntu/Landex/data/farmland_estonia.csv')
+df_est_farm = pd.read_csv('../data/farmland_estonia.csv')
 df_est_farm[['ds', 'y']] = df_est_farm[['year', 'avg_price_eur']]
 df_est_farm = df_est_farm[['ds', 'y']]
 m = Prophet()
@@ -241,7 +243,7 @@ st.plotly_chart(fig, use_container_width=True)
 st.subheader("""
      Eesti metsamaa ja põllumaa prohveti mudel - Eesti metsamaa ja põllumaa prognoosimine
 """)
-df_est_for_farm = pd.read_csv('/home/ubuntu/Landex/data/maaamet_farm_forest_2022.csv')
+df_est_for_farm = pd.read_csv('../data/maaamet_farm_forest_2022.csv')
 df_est_for_farm[['ds', 'y']] = df_est_for_farm[['year', 'avg_price_eur']]
 df_est_for_farm = df_est_for_farm[['ds', 'y']]
 m = Prophet()
