@@ -15,7 +15,7 @@ from StreamlitHelper import Toc, get_img_with_href, read_df, create_table
 
 st.set_page_config(
     page_title="Land Index",
-    page_icon="/home/ubuntu/Landex/data/landex.ico",
+    page_icon="../data/landex.ico",
 )
 
 # inject CSS to hide row indexes and style fullscreen button
