@@ -58,7 +58,7 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
 # Sample questions
-sample_questions = ["Which region had the most expensive forest land in 2022?", "Which county had the most expensive forest land in 2022?", "What is the most average price per EUR for all farm land in Harjumaa in 2022?",
+sample_questions = ["Which region had the most expensive forest land in 2022?", "Which county had the most expensive forest land in 2022?", "What is the highest average transaction price per EUR for all farm land in Harjumaa in 2022?",
                     "Which county had the highest number of transactions in 2022?", "What was the minimum price in hectars in Järva maakond in 2021?"]
 
 # Create columns for sample questions
