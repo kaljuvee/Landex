@@ -13,7 +13,7 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 model = 'gpt-4-1106-preview'
 
 # Page configuration
-st.set_page_config(page_title="AI Land Analyst by Kanvas.ai")
+st.set_page_config(page_title="AI Land Analyst by Landex.ai")
 st.title("AI Land Advisor")
 
 # Function to read the DataFrame
