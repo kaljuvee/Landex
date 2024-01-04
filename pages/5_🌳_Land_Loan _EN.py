@@ -28,7 +28,7 @@ def get_user_input(rev_multipliers):
     try:
         land_size = float(land_size)
     except ValueError:
-        st.error('Please enter a valid number for land size)
+        st.error('Please enter a valid number for land size')
         land_size = None
     sector = st.selectbox('Select Industry Sector:', options=list(rev_multipliers.keys()))
     return land_type, county, region, land_size
