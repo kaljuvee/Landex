@@ -58,8 +58,11 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
 # Sample questions
-sample_questions = ["Which author or artist had the highest end price in 2021?", "Which was the most popular decade of works sold in 2021?", "How many graphics works were sold in 2020?",
-                    "What was the avearage start price of Juri Arrak's works in 2021?", "Which author had the largest work by dimension sold in 2019?"]
+sample_questions = ["Millises maakonnas oli 2022. aastal kalleim metsamaa?", 
+                    "Mis on Harjumaa kõige kalleim keskmine hind 2022. aastal?",
+                    "Millises maakonnas oli 2022. aastal kõige rohkem tehinguid?", 
+                    "Milline oli Järva maakonna miinimumhind hektarites 2021. aastal?", 
+                    "Millises vallas oli 2022. aastal kalleim metsamaa?"]
 
 # Create columns for sample questions
 num_columns = 3
