@@ -119,25 +119,25 @@ if st.button("Calculate"):
     else:
         st.write("No data available for the selected combination.")
   
-with st.form("user_details_form", clear_on_submit=True):
+    with st.form("user_details_form", clear_on_submit=True):
         name = st.text_input("Name")
         email = st.text_input("Email")
         phone_number = st.text_input("Phone Number")
         company_name = st.text_input("Company Name")
         submit_button = st.form_submit_button("Send")
 
-    if submit_button:
+        if submit_button:
         # Email content
-        subject = "Loan Information"
-        body = f"Name: {name}\nEmail: {email}\nPhone: {phone_number}\nCompany: {company_name}\n\nLoan Details:\n{loan_info_df.to_string(index=False)}"
+            subject = "Loan Information"
+            body = f"Name: {name}\nEmail: {email}\nPhone: {phone_number}\nCompany: {company_name}\n\nLoan Details:\n{loan_info_df.to_string(index=False)}"
         
         # Email parameters - Replace with your actual details
-        from_addr = 'info@yourdomain.com'
-        to_addr = email
-        smtp_user = 'your_smtp_user'
-        smtp_password = 'your_smtp_password'
+            from_addr = 'info@yourdomain.com'
+            to_addr = email
+            smtp_user = 'your_smtp_user'
+            smtp_password = 'your_smtp_password'
 
-        # Send email
-        mail.util.send_mail(subject, body)
+            # Send email
+            mail.util.send_mail(subject, body)
         
 st.text("Copyright 2024 Landex.ai")
