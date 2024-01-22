@@ -73,8 +73,8 @@ if st.button("Calculate"):
                 "Land Type",
                 "Region",
                 "County",
-                "Plot Size (hectars)",
-                "Averagea price per hectar (EUR)",
+                "Plot Size (acres)",
+                "Average price per acre (EUR)",
                 "Loan Term (months)",
                 "Payment Frequency",
                 "Land Value (Estimated) (EUR)",
@@ -91,7 +91,7 @@ if st.button("Calculate"):
                 payment_frequency,
                 f"{property_value:.2f}",
                 f"{max_loan_amount:.2f}",
-                ""  # To be filled by annuity calculation
+                ""  # Placeholder for monthly payment
             ]
         }
 
@@ -99,7 +99,7 @@ if st.button("Calculate"):
         if payment_frequency == "Monthly":
             periods = loan_term
             monthly_payment = calculate_annuity_payment(max_loan_amount, interest_rate, periods)
-            data["Value"][8] = f"{monthly_payment:.2f}"
+            data["Value"][9] = f"{monthly_payment:.2f}"  # Ensure the index is correct for monthly payment
 
         # Create and display DataFrame
         loan_info_df = pd.DataFrame(data)
