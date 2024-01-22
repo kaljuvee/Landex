@@ -63,19 +63,40 @@ if st.button("Calculate"):
 
         # Prepare data for DataFrame
         data = {
-            "Item": ["Land Value (Estimated) (EUR)", "Maximum Loan Amount (60% LTV, 8% annual) (EUR)", "Monthly Payment (EUR)"],
-            "Value": [f"{property_value:.2f}", f"{max_loan_amount:.2f}", ""]
+            "Item": [
+                "Land Type",
+                "Region",
+                "County",
+                "Plot Size (acres)",
+                "Loan Term (months)",
+                "Payment Frequency",
+                "Land Value (Estimated) (EUR)",
+                "Maximum Loan Amount (60% LTV, 8% annual) (EUR)",
+                "Monthly Payment (EUR)"
+            ],
+            "Value": [
+                land_type,
+                selected_region,
+                selected_county,
+                f"{plot_size:.1f}",
+                f"{loan_term}",
+                payment_frequency,
+                f"{property_value:.2f}",
+                f"{max_loan_amount:.2f}",
+                ""  # To be filled by annuity calculation
+            ]
         }
 
         # Annuity payment calculation
         if payment_frequency == "Monthly":
             periods = loan_term
             monthly_payment = calculate_annuity_payment(max_loan_amount, interest_rate, periods)
-            data["Value"][2] = f"{monthly_payment:.2f}"
+            data["Value"][8] = f"{monthly_payment:.2f}"
 
         # Create and display DataFrame
         loan_info_df = pd.DataFrame(data)
-               # Convert DataFrame to HTML and use markdown to display it with styling
+
+        # Convert DataFrame to HTML and use markdown to display it with styling
         loan_info_html = loan_info_df.to_html(index=False, escape=False)
         loan_info_html = loan_info_html.replace('<th>', '<th style="font-weight: bold; background-color: #f0f0f0; text-align: left;">')
         st.markdown(loan_info_html, unsafe_allow_html=True)
