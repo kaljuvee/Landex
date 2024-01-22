@@ -72,7 +72,7 @@ selected_payment_frequency_ee = st.selectbox("Maksete sagedus:", list(payment_fr
 # Reverse lookup to get the English equivalent
 payment_frequency = [key for key, value in payment_frequency_dict.items() if value == selected_payment_frequency_ee][0]
 
-loan_amount = st.number_input("Loan Amount", min_value=1000, step=1000)
+loan_amount = st.number_input("Laenu summa:", min_value=1000, step=1000)
 
 
 
@@ -102,7 +102,7 @@ if st.button("Arvuta"):
                 "Igakuine makse (EUR)"
             ],
             "Value": [
-                land_type,
+                selected_land_type_ee,
                 selected_region,
                 selected_county,
                 f"{plot_size:.1f}",
