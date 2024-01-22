@@ -15,16 +15,29 @@ def load_region_county_dict():
 
 region_county_dict = load_region_county_dict()
 
-st.title("Land Purchase and Loan Application")
+st.title("Land Loan Application")
 
 # User inputs
-land_type = st.selectbox("Land Type", ["Forest land", "Farmland", "Residential", "Commercial", "Industrial"])
-selected_region = st.selectbox("Region", list(region_county_dict.keys()))
+land_type = st.selectbox("Land Type", 
+                         ["Forest land", "Farmland", "Residential", "Commercial", "Industrial"], 
+                         key="land_type_select")
+
+selected_region = st.selectbox("Region", 
+                               list(region_county_dict.keys()), 
+                               key="region_select")
+
 selected_county = region_county_dict[selected_region]
 
 plot_size = st.number_input("Plot Size (in acres)", min_value=0.1, step=0.1)
-loan_term = st.selectbox("Loan Term (Months)", list(range(6, 25)))
-payment_frequency = st.selectbox("Payment Frequency", ["Monthly", "Quarterly", "Semi-Annual", "Annual"])
+
+loan_term = st.selectbox("Loan Term (Months)", 
+                         list(range(6, 25)), 
+                         key="loan_term_select")
+
+payment_frequency = st.selectbox("Payment Frequency", 
+                                 ["Monthly", "Quarterly", "Semi-Annual", "Annual"], 
+                                 key="payment_frequency_select")
+
 loan_amount = st.number_input("Loan Amount", min_value=1000, step=1000)
 
 st.write(f"Selected County: {selected_county}")
