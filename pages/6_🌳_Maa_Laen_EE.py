@@ -17,7 +17,7 @@ st.title('Land Loan Calculator')
 @st.cache_data
 def load_region_county_dict():
     df = pd.read_csv(DICT_PATH)
-    return dict(zip(df['Piirkond'], df['Maakond']))
+    return dict(zip(df['Region'], df['County']))
 
 region_county_dict = load_region_county_dict()
 
@@ -34,10 +34,10 @@ def load_data():
 df = load_data()
 
 # User inputs
-land_type = st.selectbox("Maatüüp", 
+land_type = st.selectbox("Maatüüp:", 
                          ["Forest land", "Farmland", "Residential", "Commercial", "Industrial"], 
                          key="land_type_select")
-selected_region = st.selectbox("Piirkond", 
+selected_region = st.selectbox("Piirkond:", 
                                list(region_county_dict.keys()), 
                                key="region_select")
 selected_county = region_county_dict[selected_region]
