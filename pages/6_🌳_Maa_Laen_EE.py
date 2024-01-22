@@ -33,21 +33,33 @@ def load_data():
 
 df = load_data()
 
+land_type_dict = {
+    "Forest land": "Metsamaa",
+    "Farmland": "Põllumaa",
+    "Residential": "Elamumaa",
+    "Commercial": "Kaubandusmaa",
+    "Industrial": "Tööstusmaa"
+}
+
 # User inputs
-land_type = st.selectbox("Maatüüp:", 
-                         ["Forest land", "Farmland", "Residential", "Commercial", "Industrial"], 
-                         key="land_type_select")
-selected_region = st.selectbox("Piirkond:", 
+# User selects land type in Estonian
+selected_land_type_ee = st.selectbox("Maa liik:", list(land_type_dict.values()),
+                    key="land_type_select")
+
+# Reverse lookup to get the English equivalent
+land_type = [key for key, value in land_type_dict.items() if value == selected_land_type_ee][0]
+
+selected_region = st.selectbox("Vald:", 
                                list(region_county_dict.keys()), 
                                key="region_select")
 selected_county = region_county_dict[selected_region]
-st.write(f"Selected Maakond: **{selected_county}**")
+st.write(f"Valitud maakond: **{selected_county}**")
 
-plot_size = st.number_input("Plot Size (in hectars)", min_value=1.0, step=0.1)
-loan_term = st.selectbox("Loan Term (Months)", 
+plot_size = st.number_input("Maatüki suurus (hektarites)", min_value=1.0, step=0.1)
+loan_term = st.selectbox("Laenu pikkus (kuudes)", 
                          list(range(6, 25)), 
                          key="loan_term_select")
-payment_frequency = st.selectbox("Makse sagedus", 
+payment_frequency = st.selectbox("Maksete sagedus", 
                                  ["Monthly", "Quarterly", "Semi-Annual", "Annual"], 
                                  key="payment_frequency_select")
 loan_amount = st.number_input("Loan Amount", min_value=1000, step=1000)
