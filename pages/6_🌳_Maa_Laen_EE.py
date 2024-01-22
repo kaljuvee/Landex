@@ -99,7 +99,7 @@ if st.button("Arvuta"):
                 "Maksete sagedus",
                 "Maa väärtus (hinnanguline) (EUR)",
                 "Maksimaalne laenusumma (60% LTV, 8% aastas) (EUR)",
-                "Igakuine makse (EUR)"
+                "Igakuine tagasimakse (EUR)"
             ],
             "Value": [
                 selected_land_type_ee,
