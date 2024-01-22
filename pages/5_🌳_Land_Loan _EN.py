@@ -18,7 +18,7 @@ region_county_dict = load_region_county_dict()
 st.title("Land Purchase and Loan Application")
 
 # User inputs
-land_type = st.selectbox("Land Type", ["Agricultural", "Residential", "Commercial", "Industrial"])
+land_type = st.selectbox("Land Type", ["Forest land", "Farmland", "Residential", "Commercial", "Industrial"])
 selected_region = st.selectbox("Region", list(region_county_dict.keys()))
 selected_county = region_county_dict[selected_region]
 
