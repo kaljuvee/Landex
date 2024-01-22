@@ -41,6 +41,12 @@ land_type_dict = {
     "Industrial": "Tööstusmaa"
 }
 
+payment_frequency_dict = {
+    "Monthly": "Igakuine",
+    "Quarterly": "Kvartaalne",
+    "Semi-Annual": "Poolaastane",
+    "Annual": "Aastane"
+}
 # User inputs
 # User selects land type in Estonian
 selected_land_type_ee = st.selectbox("Maa liik:", list(land_type_dict.values()),
@@ -59,9 +65,13 @@ plot_size = st.number_input("Maatüki suurus (hektarites)", min_value=1.0, step=
 loan_term = st.selectbox("Laenu pikkus (kuudes)", 
                          list(range(6, 25)), 
                          key="loan_term_select")
-payment_frequency = st.selectbox("Maksete sagedus", 
-                                 ["Monthly", "Quarterly", "Semi-Annual", "Annual"], 
-                                 key="payment_frequency_select")
+
+# User selects payment frequency in Estonian
+selected_payment_frequency_ee = st.selectbox("Maksete sagedus:", list(payment_frequency_dict.values()), key="payment_frequency_select")
+
+# Reverse lookup to get the English equivalent
+payment_frequency = [key for key, value in payment_frequency_dict.items() if value == selected_payment_frequency_ee][0]
+
 loan_amount = st.number_input("Loan Amount", min_value=1000, step=1000)
 
 
@@ -132,11 +142,12 @@ if st.button("Arvuta"):
         st.write("Valitud kombinatsiooni jaoks andmed puuduvad.")
   
     with st.form("user_details_form", clear_on_submit=True):
-        name = st.text_input("Nimi")
-        email = st.text_input("E-post")
-        phone_number = st.text_input("Telefoninumber")
-        company_name = st.text_input("Ettevõtte nimi")
-        submit_button = st.form_submit_button("Saada")
+        name = st.text_input("Nimi:")
+        email = st.text_input("E-post:")
+        phone_number = st.text_input("Telefoninumber:")
+        company_name = st.text_input("Ettevõtte nimi:")
+        comments = st.text_input("Lisainfo:")
+        submit_button = st.form_submit_button("Saada päring")
 
         if submit_button:
         # E-post content
