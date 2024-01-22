@@ -13,7 +13,7 @@ from_addr = 'info@predictivelabs.co.uk'
 to_addr = 'kaljuvee@gmail.com'
 
 
-def send_mail(from_addr, to_addr, subject, body):
+def send_mail(subject, body):
     # Create MIME message
     msg = MIMEMultipart()
     msg['From'] = from_addr
@@ -33,10 +33,3 @@ def send_mail(from_addr, to_addr, subject, body):
         print('Email sent successfully!')
     except Exception as e:
         print(f'Failed to send email: {e}')
-
-def main():
-    subject = 'Trading alert'
-    body = 'This is a trading alert'
-    send_mail(from_addr, to_addr, subject, body)
-if __name__ == '__main__':
-    main()
