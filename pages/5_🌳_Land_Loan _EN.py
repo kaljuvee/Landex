@@ -50,29 +50,29 @@ loan_amount = st.number_input("Loan Amount", min_value=1000, step=1000)
 
 st.write(f"Selected County: {selected_county}")
 
-# 'Get Quote' button
+# 'Get Quote' button action
 if st.button("Calculate"):
-    # Fetch avg_price_eur based on land_type, county, region
-    avg_price_eur = df[(df['land_type'] == land_type) & (df['county'] == selected_county) & (df['region'] == selected_region)]['avg_price_eur'].mean()
-    
     if not np.isnan(avg_price_eur):
         property_value = avg_price_eur * plot_size
         loan_to_value = 0.6  # 60%
         interest_rate = 0.08  # 8%
-
-        # Calculate loan amount based on LTV
         max_loan_amount = property_value * loan_to_value
 
-        # Display loan information
-        st.write(f"Property Value (Estimated): {property_value}")
-        st.write(f"Maximum Loan Amount (60% LTV): {max_loan_amount}")
-        st.write("Loan Repayment Schedule (Annuity):")
+        # Prepare data for DataFrame
+        data = {
+            "Item": ["Property Value (Estimated)", "Maximum Loan Amount (60% LTV)", "Monthly Payment"],
+            "Value": [f"{property_value:.2f}", f"{max_loan_amount:.2f}", ""]
+        }
 
         # Annuity payment calculation
         if payment_frequency == "Monthly":
             periods = loan_term
             monthly_payment = calculate_annuity_payment(max_loan_amount, interest_rate, periods)
-            st.write(f"Monthly Payment: {monthly_payment}")
+            data["Value"][2] = f"{monthly_payment:.2f}"
+
+        # Create and display DataFrame
+        loan_info_df = pd.DataFrame(data)
+        st.table(loan_info_df.style.format({"Item": lambda x: "**" + x + "**"}))  # Bold headers
 
     else:
         st.write("No data available for the selected combination.")
