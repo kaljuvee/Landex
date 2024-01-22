@@ -11,7 +11,7 @@ from util import file_util
 DATA_PATH = 'data/maaamet_farm_forest_2022.csv'
 DICT_PATH = 'data/region_county_dict.csv'
 
-st.title('Land Loan Calculator')
+st.title('Maalaenu kalkulaator')
 
 # Load the region-county mapping from a CSV file
 @st.cache_data
