@@ -63,7 +63,7 @@ if st.button("Get Quote"):
 
         # Prepare data for DataFrame
         data = {
-            "Item": ["Property Value (Estimated)", "Maximum Loan Amount (60% LTV)", "Monthly Payment"],
+            "Item": ["Land Value (Estimated) (EUR)", "Maximum Loan Amount (60% LTV, 8% annual) (EUR)", "Monthly Payment (EUR)"],
             "Value": [f"{property_value:.2f}", f"{max_loan_amount:.2f}", ""]
         }
 
@@ -83,4 +83,4 @@ if st.button("Get Quote"):
     else:
         st.write("No data available for the selected combination.")
 
-st.text("Copyright Landex.ai")
+st.text("Copyright 2024 Landex.ai")
