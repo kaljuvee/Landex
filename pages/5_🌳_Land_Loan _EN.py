@@ -75,7 +75,10 @@ if st.button("Get Quote"):
 
         # Create and display DataFrame
         loan_info_df = pd.DataFrame(data)
-        st.table(loan_info_df.style.format({"Item": lambda x: "**" + x + "**"}))  # Bold headers
+               # Convert DataFrame to HTML and use markdown to display it with styling
+        loan_info_html = loan_info_df.to_html(index=False, escape=False)
+        loan_info_html = loan_info_html.replace('<th>', '<th style="font-weight: bold; background-color: #f0f0f0; text-align: left;">')
+        st.markdown(loan_info_html, unsafe_allow_html=True)
 
     else:
         st.write("No data available for the selected combination.")
