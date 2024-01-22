@@ -47,10 +47,10 @@ st.title("Land Purchase and Loan Application")
 land_type = st.selectbox("Land Type", ["Agricultural", "Residential", "Commercial", "Industrial"])
 county = st.text_input("County")
 region = st.text_input("Region")
-plot_size = st.number_input("Plot Size (in acres)", min_value=0.1, step=0.1)
+plot_size = st.number_input("Plot Size (in hectars)", min_value= 1.0, step=0.1)
 loan_term = st.selectbox("Loan Term (Months)", list(range(6, 25)))
 payment_frequency = st.selectbox("Payment Frequency", ["Monthly", "Quarterly", "Semi-Annual", "Annual"])
-loan_amount = st.number_input("Loan Amount", min_value=1000, step=1000)
+loan_amount = st.number_input("Loan Amount (EUR)", min_value=5000, step=1000)
 
 # 'Get Quote' button
 if st.button("Calculate"):
