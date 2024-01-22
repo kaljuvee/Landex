@@ -8,7 +8,7 @@ DICT_PATH = 'data/region_county_dict.csv'
 st.title('Land Value and Loan Calculator')
 
 # Load the region-county mapping from a CSV file
-@st.cache
+@st.cache_data
 def load_region_county_dict():
     df = pd.read_csv(DICT_PATH)
     return dict(zip(df['Region'], df['County']))
@@ -23,7 +23,7 @@ def calculate_annuity_payment(principal, annual_interest_rate, periods):
     return principal * monthly_interest_rate / (1 - (1 + monthly_interest_rate)**-periods)
 
 # Load data
-@st.cache
+@st.cache_data
 def load_data():
     return pd.read_csv(DATA_PATH)
 
