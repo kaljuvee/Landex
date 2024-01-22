@@ -108,7 +108,7 @@ if st.button("Arvuta"):
                 f"{plot_size:.1f}",
                 f"{avg_price_eur:.2f}",
                 f"{loan_term}",
-                payment_frequency,
+                selected_payment_frequency_ee,
                 f"{property_value:.2f}",
                 f"{max_loan_amount:.2f}",
                 ""  # Placeholder for monthly payment
