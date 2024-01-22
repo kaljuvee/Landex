@@ -45,6 +45,8 @@ selected_region = st.selectbox("Region",
                                list(region_county_dict.keys()), 
                                key="region_select")
 selected_county = region_county_dict[selected_region]
+st.write(f"Selected County: **{selected_county}**")
+
 plot_size = st.number_input("Plot Size (in hectars)", min_value=1.0, step=0.1)
 loan_term = st.selectbox("Loan Term (Months)", 
                          list(range(6, 25)), 
@@ -54,7 +56,7 @@ payment_frequency = st.selectbox("Payment Frequency",
                                  key="payment_frequency_select")
 loan_amount = st.number_input("Loan Amount", min_value=1000, step=1000)
 
-st.write(f"Selected County: {selected_county}")
+
 
 # 'Get Quote' button action
 if st.button("Calculate"):
