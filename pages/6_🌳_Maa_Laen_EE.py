@@ -1,257 +1,143 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.pylab as pylab
-from sklearn.metrics import mean_squared_error, mean_absolute_error
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn import metrics
-from prophet import Prophet
-from prophet.plot import plot_plotly, plot_components_plotly
-from StreamlitHelper import Toc, get_img_with_href, read_df, create_table
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+import base64
+from io import BytesIO
+from util import file_util
 
-st.set_page_config(
-    page_title="Land Index",
-    page_icon="data/landex.ico",
-)
+DATA_PATH = 'data/maaamet_farm_forest_2022.csv'
+DICT_PATH = 'data/region_county_dict.csv'
 
-# inject CSS to hide row indexes and style fullscreen button
-inject_style_css = """
-            <style>
-            /*style hide table row index*/
-            thead tr th:first-child {display:none}
-            tbody th {display:none}
-            
-            /*style fullscreen button*/
-            button[title="View fullscreen"] {
-                background-color: #004170cc;
-                right: 0;
-                color: white;
-            }
-            button[title="View fullscreen"]:hover {
-                background-color:  #004170;
-                color: white;
-                }
-            a { text-decoration:none;}
-            </style>
-            """
-st.markdown(inject_style_css, unsafe_allow_html=True)
+st.title('Land Loan Calculator')
 
-def create_paragraph(text):
-    st.markdown('<span style="word-wrap:break-word;">' + text + '</span>', unsafe_allow_html=True)
- 
-toc = Toc()
+# Load the region-county mapping from a CSV file
+@st.cache_data
+def load_region_county_dict():
+    df = pd.read_csv(DICT_PATH)
+    return dict(zip(df['Piirkond'], df['Maakond']))
 
-# TITLE
-st.image("data/landex.png",width=200)
-st.title('Estonian Land Index')
+region_county_dict = load_region_county_dict()
 
-# Overview
-st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#overview' target='_self'>Overview</a>
-""", unsafe_allow_html=True)
-toc.header('Overview')
-create_paragraph('''LandEx is a startup company based in Tallinn, Estonia, with a mission to democratize land investment.
+# Function to calculate annuity payment
+def calculate_annuity_payment(principal, annual_interest_rate, periods):
+    monthly_interest_rate = annual_interest_rate / 12
+    return principal * monthly_interest_rate / (1 - (1 + monthly_interest_rate)**-periods)
 
-They believe that land is a great asset class that provides high-yield and low-risk returns due to its economic fundamentals, and therefore it should be accessible to anyone.
+# Load data
+@st.cache_data
+def load_data():
+    return pd.read_csv(DATA_PATH)
 
-The company aims to become the largest land investment platform in Europe, providing a solution that was not previously available in the market.
-The founders of LandEx, Kamel, and Randy, were dissatisfied with the investment opportunities available for land investments. They found it challenging to source and manage land, and the minimum investment required was often in the thousands of euros, making it difficult for many people to access this type of investment.
-As a result, they created a digital platform to provide everyone with the opportunity to invest in land, which they launched in September 2021.
-LandEx is the first crowdfunding land investment platform in Europe, offering investors an opportunity to invest in land projects with a low minimum investment.
+df = load_data()
 
-The platform enables investors to browse a range of investment opportunities, choose the projects they want to invest in, and invest in just a few clicks. LandEx also provides investors full transparency and control over their investments, including tracking the progress of the projects in real time.
+# User inputs
+land_type = st.selectbox("Maatüüp", 
+                         ["Forest land", "Farmland", "Residential", "Commercial", "Industrial"], 
+                         key="land_type_select")
+selected_region = st.selectbox("Piirkond", 
+                               list(region_county_dict.keys()), 
+                               key="region_select")
+selected_county = region_county_dict[selected_region]
+st.write(f"Selected Maakond: **{selected_county}**")
 
-With LandEx's innovative and user-friendly platform, investing in the land has never been more accessible. The company's mission to democratize land investment is an exciting development for those interested in investing in this asset class, providing a low-risk and high-yield investment option that was previously inaccessible to many.''')
+plot_size = st.number_input("Plot Size (in hectars)", min_value=1.0, step=0.1)
+loan_term = st.selectbox("Loan Term (Months)", 
+                         list(range(6, 25)), 
+                         key="loan_term_select")
+payment_frequency = st.selectbox("Makse sagedus", 
+                                 ["Monthly", "Quarterly", "Semi-Annual", "Annual"], 
+                                 key="payment_frequency_select")
+loan_amount = st.number_input("Loan Amount", min_value=1000, step=1000)
 
 
-# FIGURE - Historical Sales Volume by Land Type
-st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-historical-sales-volume-by-land-type' target='_self'>Historical Sales Volume by Land Type</a>
-""", unsafe_allow_html=True)
 
-df = pd.read_csv('data/maaamet_farm_forest_2022.csv')
-toc.subheader('Figure - Historical Sales Volume by Land Type')
-fig = px.bar(df, x='year', y='total_volume_eur',
-             hover_data=['year', 'avg_price_eur', 'total_volume_eur', 'county', 'region'], color='land_type',
-             labels={'avg_price_eur':'Average price (EUR per hectar)'}, height=400)
-fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
-st.plotly_chart(fig, use_container_width=True)
-create_paragraph('''The Land Index provides an overview of the fluctuations in the prices of farmland and forest land.
-It's noteworthy that these prices have experienced a noticeable increase in recent years.''')
+# 'Get Quote' button action
+if st.button("Arvuta"):
+    # Fetch avg_price_eur based on land_type, county, region
+    avg_price_eur = df[(df['land_type'] == land_type) & (df['county'] == selected_county) & (df['region'] == selected_region)]['avg_price_eur'].mean()
+    
+    if not np.isnan(avg_price_eur):
+        property_value = avg_price_eur * plot_size
+        loan_to_value = 0.6  # 60%
+        interest_rate = 0.08  # 8%
+        max_loan_amount = property_value * loan_to_value
 
-# FIGURE - Relative price of land by region - point of time data (2022)
-st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-relative-price-of-land-by-region-point-of-time-data-2022' target='_self'>Relative price of land by region - point of time data (2022)</a>
-""", unsafe_allow_html=True)
-toc.subheader('Figure - Relative price of land by region - point of time data (2022)')
-fig = px.treemap(df, path=['land_type', 'county', 'region'], values='total_volume_eur',
-                  color='avg_price_eur', hover_data=['region'],
-                  color_continuous_scale='RdBu',
-                  color_continuous_midpoint=np.average(df['avg_price_eur'], weights=df['total_volume_eur']))
-fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
-st.plotly_chart(fig, use_container_width=True)
-create_paragraph('''Based on the data available up until 2022, we can observe the following trends:
+        # Prepare data for DataFrame
+        data = {
+            "Item": [
+                "Maatüüp",
+                "Piirkond",
+                "Maakond",
+                "Krundi suurus (hektarites)",
+                "Keskmine hind hektari kohta (EUR)",
+                "Laenu tähtaeg (kuudes)",
+                "Makse sagedus",
+                "Maa väärtus (hinnanguline) (EUR)",
+                "Maksimaalne laenusumma (60% LTV, 8% aastas) (EUR)",
+                "Igakuine makse (EUR)"
+            ],
+            "Value": [
+                land_type,
+                selected_region,
+                selected_county,
+                f"{plot_size:.1f}",
+                f"{avg_price_eur:.2f}",
+                f"{loan_term}",
+                payment_frequency,
+                f"{property_value:.2f}",
+                f"{max_loan_amount:.2f}",
+                ""  # Placeholder for monthly payment
+            ]
+        }
 
-Price Range - The prices for land in Hiiumaa, a remote island in Estonia, ranged from around 2400 EUR per hectare at the lower end to some of the highest prices.
+        # Annuity payment calculation
+        if payment_frequency == "Monthly":
+            periods = loan_term
+            monthly_payment = calculate_annuity_payment(max_loan_amount, interest_rate, periods)
+            data["Value"][9] = f"{monthly_payment:.2f}"  # Ensure the index is correct for monthly payment
 
-Land Type - On average, forest land was more expensive than farmland.
+        # Create and display DataFrame
+        loan_info_df = pd.DataFrame(data)
 
-These observations provide valuable insights into the current state of the land market and can help inform decision-making for those looking to buy or sell land.''')
+        # Convert DataFrame to HTML and use markdown to display it with styling
+        loan_info_html = loan_info_df.to_html(index=False, escape=False)
+        loan_info_html = loan_info_html.replace('<th>', '<th style="font-weight: bold; background-color: #f0f0f0; text-align: left;">')
+        st.markdown(loan_info_html, unsafe_allow_html=True)
 
-#FIGURE - Average price vs average plot size
-st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-average-price-vs-average-plot-size' target='_self'>Average price vs average plot size</a>
-""", unsafe_allow_html=True)
-toc.subheader('Figure - Average price vs average plot size')
-fig = px.scatter(df, x="average_area", y="avg_price_eur", color="county",
-                 size='total_volume_eur', hover_data=['region'])
-fig.update_layout(margin=dict(l=5, r=5, t=5, b=5))
-st.plotly_chart(fig, use_container_width=True)
-create_paragraph('''The provided graph visualizes the relationship between two variables, average_area, and avg_price_eur, for various counties within a given region. Each point on the graph represents a county, with the color of the point indicating the specific county and the size of the point representing the total sales volume in euros.
+        pdf_file_name = 'loan_info.pdf'
+        file_util.create_pdf(loan_info_df, pdf_file_name)
 
-As we move from the top left to the bottom right, we can see a downward trend in the points, indicating that larger plots tend to have lower average prices and smaller plots tend to have higher average prices.''')
+    # Create download link for the PDF
+        with open(pdf_file_name, "rb") as f:
+            base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+        pdf_download_link = f'<a href="data:application/octet-stream;base64,{base64_pdf}" download="{pdf_file_name}">Download PDF</a>'
+        st.markdown(pdf_download_link, unsafe_allow_html=True)
 
-#FIGURE - Relationship between Land Area and Transaction Volume
-st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-relationship-between-land-area-and-transaction-volume' target='_self'>Relationship between Land Area and Transaction Volume</a>
-""", unsafe_allow_html=True)
+    else:
+        st.write("Valitud kombinatsiooni jaoks andmed puuduvad.")
+  
+    with st.form("user_details_form", clear_on_submit=True):
+        name = st.text_input("Nimi")
+        email = st.text_input("E-post")
+        phone_number = st.text_input("Telefoninumber")
+        company_name = st.text_input("Company Nimi")
+        submit_button = st.form_submit_button("Saada")
 
-toc.subheader('Figure - Relationship between Land Area and Transaction Volume')
-fig = px.scatter(df, x="average_area", y="total_volume_eur", color="land_type")
-fig.update_layout(
-    xaxis_title="Average Area (hectares)",
-    margin=dict(l=5, r=5, t=5, b=5)
-)
-st.plotly_chart(fig, use_container_width=True)
-create_paragraph('''The largest number of transactions were for plots that were approximately 10 hectares in size.
-''')
-#FIGURE - Forest land Index
-index_df = pd.read_csv('data/total_land_index.csv')
-st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-forest-land-index' target='_self'>Forest land Index</a>
-""", unsafe_allow_html=True)
+        if submit_button:
+        # E-post content
+            subject = "Loan Information"
+            body = f"Nimi: {name}\nE-post: {email}\nPhone: {phone_number}\nCompany: {company_name}\n\nLoan Details:\n{loan_info_df.to_string(index=False)}"
+        
+        # E-post parameters - Replace with your actual details
+            from_addr = 'info@yourdomain.com'
+            to_addr = email
+            smtp_user = 'your_smtp_user'
+            smtp_password = 'your_smtp_password'
 
-toc.subheader('Figure - Forest land Index')
-forest_index_fig = px.area(index_df, x="year", y="forest_avg_eur", color_discrete_sequence=['green'])
-forest_index_fig.update_yaxes(title_text='The average price in EUR per hectare, forest land')
-forest_index_fig.update_xaxes(title_text='Year')
-st.plotly_chart(forest_index_fig, use_container_width=True)
-create_paragraph('''The average price of forest land grew from about 1,000 EUR per hectare in 2000 to about 8,000 EUR per hectare in 2022.
-''')
-#FIGURE - Farmland Index
-st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-farmland-index' target='_self'>Farmland Index</a>
-""", unsafe_allow_html=True)
-
-toc.subheader('Figure - Farmland Index')
-farm_index_fig = px.area(index_df, x="year", y="farmland_avg_eur", color_discrete_sequence=['orange']) 
-farm_index_fig.update_yaxes(title_text='The average price in EUR per hectare, farmland')
-farm_index_fig.update_xaxes(title_text='Year')
-st.plotly_chart(farm_index_fig, use_container_width=True)
-create_paragraph('''The average price of forest land grew from about 280 EUR per hectare in 2000 to about 4,800 EUR per hectare in 2022.
-''')
-#FIGURE - Farmland and Forest Land Total Index
-st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-farmland-and-forest-land-total-index' target='_self'>Farmland and Forest Land Total Index</a>
-""", unsafe_allow_html=True)
-
-toc.subheader('Figure - Farmland and Forest Land Total Index')
-total_index_fig = px.area(index_df, x="year", y="all_average_eur")
-total_index_fig.update_yaxes(title_text='The average price in EUR per hectare, Farmland and Forest Land')
-total_index_fig.update_xaxes(title_text='Year')
-st.plotly_chart(total_index_fig, use_container_width=True)
-create_paragraph('''The average price of forest land grew from about 730 EUR per hectare in 2000 to about 6,600 EUR per hectare in 2022.
-''')
-#FIGURE - Land Volume Index
-st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#figure-land-volume-index' target='_self'>Land Volume Index</a>
-""", unsafe_allow_html=True)
-
-country_df = df.groupby(['land_type', 'year', 'county'])['total_volume_eur'].mean()
-index_df = df.groupby(['year'])['total_volume_eur'].mean()
-index_df.columns = ['country_index']
-index_df = country_df.reset_index()
-toc.subheader('Figure -Land Volume Index')
-country_fig = px.area(index_df, x="year", y="total_volume_eur", color="county", line_group="land_type")
-st.plotly_chart(country_fig, use_container_width=True)
-create_paragraph('''The total volume of transactions of all lands grew from about 4 million EUR in 2000 to about 58m EUR in 2022.
-''')
-
-#Top performers - Price Performance (County)
-st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#top-performers-price-performance-county' target='_self'>Top performers - Price Performance (County)</a>
-""", unsafe_allow_html=True)
-toc.subheader('Top performers - Price Performance (County)')
-df=pd.read_csv('data/maaamet_farm_forest_2022.csv')
-country_df = df.groupby(['land_type', 'year', 'county'])['total_volume_eur'].mean()
-index_df = df.groupby(['year'])['total_volume_eur'].mean()
-index_df.columns = ['country_index']
-index_df = country_df.reset_index()
-sorted_data =index_df.sort_values(by='total_volume_eur', ascending=False).head(5)
-st.table(sorted_data)
-
-#FIGURE - Land Price Prediction
-st.sidebar.markdown("""
-     <a href='./Estonian_Index_-_EN#land-price-prediction' target='_self'>Land Price Prediction</a>
-""", unsafe_allow_html=True)
-toc.subheader('Land Price Prediction')
-
-
-#Estonia Forest Land Prophet Model - Estonian Forest Land Prediction
-st.subheader("""
-     Estonia Forest Land Prophet Model - Estonian Forest Land Prediction
-""")
-df_est_forest = pd.read_csv('data/forest_land_estonia.csv')
-df_est_forest[['ds', 'y']] = df_est_forest[['year', 'avg_price_eur']]
-df_est_forest = df_est_forest[['ds', 'y']]
-m = Prophet()
-m.fit(df_est_forest)
-future = m.make_future_dataframe(periods = 20818)     
-forecast = m.predict(future.tail(1461))
-m.plot(forecast)
-fig1 = plot_plotly(m, forecast) 
-st.plotly_chart(fig1) 
-fig = go.Figure()
-fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
-st.plotly_chart(fig, use_container_width=True)
-
-#Estonia Farmland Prophet Model - Estonian Farmland Prediction
-st.subheader("""
-     Estonia Farmland Prophet Model - Estonian Farmland Prediction
-""")
-df_est_farm = pd.read_csv('data/farmland_estonia.csv')
-df_est_farm[['ds', 'y']] = df_est_farm[['year', 'avg_price_eur']]
-df_est_farm = df_est_farm[['ds', 'y']]
-m = Prophet()
-m.fit(df_est_farm)
-future = m.make_future_dataframe(periods = 20818)
-forecast = m.predict(future.tail(1461))
-m.plot(forecast)
-fig1 = plot_plotly(m, forecast) 
-st.plotly_chart(fig1) 
-fig = go.Figure()
-fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
-st.plotly_chart(fig, use_container_width=True)
-
-#Estonia Forest land and Farmland Prophet Model - Estonian Forest Land and Farmland Prediction
-st.subheader("""
-     Estonia Forest land and Farmland Prophet Model - Estonian Forest Land and Farmland Prediction
-""")
-df_est_for_farm = pd.read_csv('data/maaamet_farm_forest_2022.csv')
-df_est_for_farm[['ds', 'y']] = df_est_for_farm[['year', 'avg_price_eur']]
-df_est_for_farm = df_est_for_farm[['ds', 'y']]
-m = Prophet()
-m.fit(df_est_for_farm)
-future = m.make_future_dataframe(periods = 20818)
-forecast = m.predict(future.tail(1461))
-m.plot(forecast)
-fig1 = plot_plotly(m, forecast) 
-st.plotly_chart(fig1) 
-fig = go.Figure()
-fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
-st.plotly_chart(fig, use_container_width=True)
-
+            # Saada email
+            mail.util.send_mail(subject, body)
+        
+st.text("Copyright 2024 Landex.ai")
