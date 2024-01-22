@@ -61,8 +61,8 @@ selected_region = st.selectbox("Vald:",
 selected_county = region_county_dict[selected_region]
 st.write(f"Valitud maakond: **{selected_county}**")
 
-plot_size = st.number_input("Maatüki suurus (hektarites)", min_value=1.0, step=0.1)
-loan_term = st.selectbox("Laenu pikkus (kuudes)", 
+plot_size = st.number_input("Maatüki suurus (hektarites):", min_value=1.0, step=0.1)
+loan_term = st.selectbox("Laenu pikkus (kuudes):", 
                          list(range(6, 25)), 
                          key="loan_term_select")
 
