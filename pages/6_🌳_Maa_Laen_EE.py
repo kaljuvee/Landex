@@ -72,7 +72,7 @@ selected_payment_frequency_ee = st.selectbox("Maksete sagedus:", list(payment_fr
 # Reverse lookup to get the English equivalent
 payment_frequency = [key for key, value in payment_frequency_dict.items() if value == selected_payment_frequency_ee][0]
 
-loan_amount = st.number_input("Laenu summa:", min_value=1000, step=1000)
+loan_amount = st.number_input("Laenusumma:", min_value=1000, step=1000)
 
 
 
