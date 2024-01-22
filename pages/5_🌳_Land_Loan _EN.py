@@ -39,7 +39,7 @@ selected_region = st.selectbox("Region",
                                list(region_county_dict.keys()), 
                                key="region_select")
 selected_county = region_county_dict[selected_region]
-plot_size = st.number_input("Plot Size (in acres)", min_value=0.1, step=0.1)
+plot_size = st.number_input("Plot Size (in hectars)", min_value=1.0, step=0.1)
 loan_term = st.selectbox("Loan Term (Months)", 
                          list(range(6, 25)), 
                          key="loan_term_select")
