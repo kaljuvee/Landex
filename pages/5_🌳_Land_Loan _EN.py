@@ -1,6 +1,12 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+import base64
+from io import BytesIO
+from util import file_util
 
 DATA_PATH = 'data/maaamet_farm_forest_2022.csv'
 DICT_PATH = 'data/region_county_dict.csv'
@@ -102,6 +108,15 @@ if st.button("Calculate"):
         loan_info_html = loan_info_df.to_html(index=False, escape=False)
         loan_info_html = loan_info_html.replace('<th>', '<th style="font-weight: bold; background-color: #f0f0f0; text-align: left;">')
         st.markdown(loan_info_html, unsafe_allow_html=True)
+
+        pdf_file_name = 'loan_info.pdf'
+        file_util.create_pdf(loan_info_df, pdf_file_name)
+
+    # Create download link for the PDF
+        with open(pdf_file_name, "rb") as f:
+            base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+        pdf_download_link = f'<a href="data:application/octet-stream;base64,{base64_pdf}" download="{pdf_file_name}">Download PDF</a>'
+        st.markdown(pdf_download_link, unsafe_allow_html=True)
 
     else:
         st.write("No data available for the selected combination.")
