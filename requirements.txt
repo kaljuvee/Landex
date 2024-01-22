@@ -7,3 +7,4 @@ langchain-experimental
 openai
 tabulate
 reportlab
+langchain-community
