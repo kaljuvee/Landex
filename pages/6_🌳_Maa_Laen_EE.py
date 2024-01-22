@@ -85,8 +85,8 @@ if st.button("Arvuta"):
                 "Maakond",
                 "Krundi suurus (hektarites)",
                 "Keskmine hind hektari kohta (EUR)",
-                "Laenu tähtaeg (kuudes)",
-                "Makse sagedus",
+                "Laenu periood (kuudes)",
+                "Maksete sagedus",
                 "Maa väärtus (hinnanguline) (EUR)",
                 "Maksimaalne laenusumma (60% LTV, 8% aastas) (EUR)",
                 "Igakuine makse (EUR)"
@@ -125,7 +125,7 @@ if st.button("Arvuta"):
     # Create download link for the PDF
         with open(pdf_file_name, "rb") as f:
             base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-        pdf_download_link = f'<a href="data:application/octet-stream;base64,{base64_pdf}" download="{pdf_file_name}">Download PDF</a>'
+        pdf_download_link = f'<a href="data:application/octet-stream;base64,{base64_pdf}" download="{pdf_file_name}">Laadi alla (PDF)</a>'
         st.markdown(pdf_download_link, unsafe_allow_html=True)
 
     else:
@@ -135,7 +135,7 @@ if st.button("Arvuta"):
         name = st.text_input("Nimi")
         email = st.text_input("E-post")
         phone_number = st.text_input("Telefoninumber")
-        company_name = st.text_input("Company Nimi")
+        company_name = st.text_input("Ettevõtte nimi")
         submit_button = st.form_submit_button("Saada")
 
         if submit_button:
@@ -143,12 +143,6 @@ if st.button("Arvuta"):
             subject = "Loan Information"
             body = f"Nimi: {name}\nE-post: {email}\nPhone: {phone_number}\nCompany: {company_name}\n\nLoan Details:\n{loan_info_df.to_string(index=False)}"
         
-        # E-post parameters - Replace with your actual details
-            from_addr = 'info@yourdomain.com'
-            to_addr = email
-            smtp_user = 'your_smtp_user'
-            smtp_password = 'your_smtp_password'
-
             # Saada email
             mail.util.send_mail(subject, body)
         
