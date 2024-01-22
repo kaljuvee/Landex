@@ -98,7 +98,7 @@ if st.button("Arvuta"):
                 "Laenu periood (kuudes)",
                 "Maksete sagedus",
                 "Maa väärtus (hinnanguline) (EUR)",
-                "Maksimaalne laenusumma (60% LTV, 8% aastas) (EUR)",
+                "Maksimaalne laenusumma (60% LTV, intress kuni 8% aastas) (EUR)",
                 "Igakuine tagasimakse (EUR)"
             ],
             "Value": [
