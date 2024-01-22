@@ -11,7 +11,7 @@ from util import file_util
 DATA_PATH = 'data/maaamet_farm_forest_2022.csv'
 DICT_PATH = 'data/region_county_dict.csv'
 
-st.title('Land Value and Loan Calculator')
+st.title('Land Loan Calculator')
 
 # Load the region-county mapping from a CSV file
 @st.cache_data
@@ -20,8 +20,6 @@ def load_region_county_dict():
     return dict(zip(df['Region'], df['County']))
 
 region_county_dict = load_region_county_dict()
-
-st.title("Land Loan Application")
 
 # Function to calculate annuity payment
 def calculate_annuity_payment(principal, annual_interest_rate, periods):
@@ -34,8 +32,6 @@ def load_data():
     return pd.read_csv(DATA_PATH)
 
 df = load_data()
-
-st.title("Land Purchase and Loan Application")
 
 # User inputs
 land_type = st.selectbox("Land Type", 
