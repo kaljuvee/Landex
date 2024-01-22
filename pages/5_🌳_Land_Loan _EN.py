@@ -51,7 +51,7 @@ loan_amount = st.number_input("Loan Amount", min_value=1000, step=1000)
 st.write(f"Selected County: {selected_county}")
 
 # 'Get Quote' button action
-if st.button("Get Quote"):
+if st.button("Calculate"):
     # Fetch avg_price_eur based on land_type, county, region
     avg_price_eur = df[(df['land_type'] == land_type) & (df['county'] == selected_county) & (df['region'] == selected_region)]['avg_price_eur'].mean()
     
