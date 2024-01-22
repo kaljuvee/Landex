@@ -90,7 +90,7 @@ if st.button("Arvuta"):
         # Prepare data for DataFrame
         data = {
             "Item": [
-                "Maatüüp",
+                "Maa liik",
                 "Piirkond",
                 "Maakond",
                 "Krundi suurus (hektarites)",
