@@ -80,7 +80,7 @@ if st.button("Calculate"):
                 selected_region,
                 selected_county,
                 f"{plot_size:.1f}",
-                f"{avg_price_eur}",
+                f"{avg_price_eur:.2f}",
                 f"{loan_term}",
                 payment_frequency,
                 f"{property_value:.2f}",
